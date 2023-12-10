@@ -23,7 +23,6 @@ const App = () => {
           <Route index element={<Home />} />
         </Route>
       </Routes>
-      <h1>HELLOOOOOOOOOOOOOOOOOOOO</h1>
     </main>
   )
 }
