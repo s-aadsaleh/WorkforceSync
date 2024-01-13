@@ -1,4 +1,4 @@
-import { UserCreateForm } from "@/components/user-create-form"
+import { UserLoginForm } from "@/components/user-login-form"
 import { buttonVariants } from "@/components/ui/button"
 
 import { Link } from "react-router-dom"
@@ -12,27 +12,26 @@ const SignupForm = () => {
       <div className="flex flex-col space-y-2">
         {/* <img src="/assets/images/final-logo.png" alt="logo" /> */}
         
-          <Link
-            to="/login"
+        <Link
+            to="/register"
             className={cn(
               buttonVariants({ variant: "ghost" }),
               "absolute right-4 top-4 md:right-8 md:top-8"
             )}
           >
-            Login
+            Register
           </Link>
-
         <div className="lg:p-8">
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
             <div className="flex flex-col space-y-2 text-center py-4">
               <h1 className="text-2xl font-semibold tracking-tight">
-                Create an account
+                Login to your account 
               </h1>
               <p className="text-sm text-muted-foreground">
-                Enter your details below to create your account
+                Enter your details below to login
               </p>
             </div>
-            <UserCreateForm />
+            <UserLoginForm />
             <p className="px-8 text-center text-sm text-muted-foreground">
               By clicking continue, you agree to our{" "}
               <Link

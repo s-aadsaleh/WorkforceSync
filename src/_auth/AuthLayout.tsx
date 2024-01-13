@@ -5,7 +5,7 @@ const AuthLayout = () => {
   return (
     <>
       {isAuthenticated ? (
-        <Navigate to="/" />
+        <Navigate to="/dashboard" />
       ): (
         <>
         <section className='flex flex-1 justify-self-center items-center flex-col py-10'>
