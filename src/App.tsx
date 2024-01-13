@@ -4,7 +4,7 @@ import './globals.css';
 
 import LoginForm from './_auth/_forms/LoginForm';
 import SignupForm from './_auth/_forms/SignupForm';
-import { Home } from './_root/pages';
+import { Dashboard } from './_root/pages';
 import AuthLayout from './_auth/AuthLayout';
 import RootLayout from './_root/RootLayout';
 
@@ -18,11 +18,12 @@ const App = () => {
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<SignupForm />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Route>
 
         {/* private routes */}
         <Route element={<RootLayout />}>
-          <Route index element={<Home />} />
+          <Route index element={<Dashboard />} />
         </Route>
       </Routes>
 

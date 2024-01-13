@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useEffect } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
@@ -11,33 +12,42 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/components/ui/use-toast"
 
-import { account } from "@/lib/appwrite/config"
-import { useCreateUserAccount, useSignInAccount } from "@/lib/react-query/queries"
+// import { account } from "@/lib/appwrite/config"
+import { useSignInAccount } from "@/lib/react-query/queries"
 import { useUserContext } from "@/context/AuthContext";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
-  const [name, setName] = React.useState<string>("");
+  const [name] = React.useState<string>("");
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
+  const { checkAuthUser, isPending: isUserLoading } = useUserContext();
 
-  
+  useEffect(() => {
+    if (
+      localStorage.getItem('cookieFallback') === '[]' ||
+      localStorage.getItem('cookieFallback') === null
+    ) {
+      navigate('/login');
+    } else {
+      navigate('/dashboard');
+    }
+  }, []);
   
   // Queries
 //   const { mutateAsync: createUserAccount, isPending: isCreatingAccount } = useCreateUserAccount();
   const { mutateAsync: signInAccount, isPending: isSigningInUser } = useSignInAccount();
 
   const googleAuth = () =>{
-    console.log('Google authentication initiated');
-    account.createOAuth2Session(
-    'google', 
-    "http://localhost:5173/dashboard", 
-    "http://localhost:5173/login"
-    );
+    // console.log('Google authentication initiated');
+    // account.createOAuth2Session(
+    //   'google', 
+    //   "http://workforcesync.vercel.app/dashboard", 
+    //   "http://workforcesync.vercel.app/login"
+    //   );
   
   }
 
@@ -45,7 +55,7 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
     event.preventDefault()
     //setIsLoading(true)
     console.log({ email, password, name })
-
+    console.log(isSigningInUser,isUserLoading)
     try {
 
       const session = await signInAccount({
@@ -64,12 +74,11 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
       if(isLoggedIn){
         navigate('/dashboard')
       } else {
-        return toast({title: "Log in failed. Please try again."})
+        return toast({title: "Sign up failed. Please try again."})
       }
     } catch (error) {
       console.log({ error });
     }
-    
 
     // setTimeout(() => {
     //   setIsLoading(false)

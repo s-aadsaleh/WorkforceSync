@@ -1,9 +1,14 @@
 import {
     useQuery,
-    useMutation,
-    useQueryClient,
-    useInfiniteQuery,
+    useMutation
   } from "@tanstack/react-query";
+
+  // import {
+  //   useQuery,
+  //   useMutation,
+  //   useQueryClient,
+  //   useInfiniteQuery,
+  // } from "@tanstack/react-query";
   
   import { QUERY_KEYS } from "@/lib/react-query/queryKeys";
   import {
@@ -26,7 +31,9 @@ import {
     // savePost,
     // deleteSavedPost,
   } from "@/lib/appwrite/api";
-  import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
+  import {  INewUser } from "@/types";
+  // import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
+
   
   // ============================================================
   // AUTH QUERIES
@@ -208,12 +215,12 @@ import {
   // USER QUERIES
   // ============================================================
   
-//   export const useGetCurrentUser = () => {
-//     return useQuery({
-//       queryKey: [QUERY_KEYS.GET_CURRENT_USER],
-//       queryFn: getCurrentUser,
-//     });
-//   };
+  export const useGetCurrentUser = () => {
+    return useQuery({
+      queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+      queryFn: getCurrentUser,
+    });
+  };
   
 //   export const useGetUsers = (limit?: number) => {
 //     return useQuery({

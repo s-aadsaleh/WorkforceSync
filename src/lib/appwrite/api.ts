@@ -79,6 +79,7 @@ export async function saveUserToDB(user: {
   // ============================== GET USER
   export async function getCurrentUser() {
     try {
+      
       const currentAccount = await getAccount();
   
       if (!currentAccount) throw Error;
@@ -102,7 +103,7 @@ export async function saveUserToDB(user: {
   export async function signOutAccount() {
     try {
       const session = await account.deleteSession("current");
-  
+      window.location.reload();
       return session;
     } catch (error) {
       console.log(error);

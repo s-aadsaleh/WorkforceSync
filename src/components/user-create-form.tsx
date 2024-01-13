@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useEffect } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
@@ -11,9 +12,11 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/components/ui/use-toast"
 
-import { account } from "@/lib/appwrite/config"
+// import { account } from "@/lib/appwrite/config"
 import { useCreateUserAccount, useSignInAccount } from "@/lib/react-query/queries"
 import { useUserContext } from "@/context/AuthContext";
+
+
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -23,28 +26,45 @@ export function UserCreateForm({ className, ...props }: UserAuthFormProps) {
   const [password, setPassword] = React.useState<string>("");
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
+  const { checkAuthUser, isPending: isUserLoading } = useUserContext();
 
-  
-  
+  useEffect(() => {
+    if (
+      localStorage.getItem('cookieFallback') === '[]' ||
+      localStorage.getItem('cookieFallback') === null
+    ) {
+      navigate('/register');
+    } else {
+      navigate('/dashboard');
+    }
+  }, []);
+
   // Queries
   const { mutateAsync: createUserAccount, isPending: isCreatingAccount } = useCreateUserAccount();
   const { mutateAsync: signInAccount, isPending: isSigningInUser } = useSignInAccount();
 
-  const googleAuth = () =>{
-    console.log('Google authentication initiated');
-    account.createOAuth2Session(
-    'google', 
-    "http://localhost:5173/dashboard", 
-    "http://localhost:5173/login"
-    );
-  
+  async function googleAuth(){
+
+    // console.log('Google authentication initiated');
+    // account.createOAuth2Session(
+    // 'google', 
+    // "http://localhost:5173/dashboard", 
+    // "http://localhost:5173/login"
+    // );
+
+    // const sessi0n = await account.getSession('current');
+
+    // console.log(sessi0n.provider);
+    // console.log(sessi0n.providerUid);
+    // console.log(sessi0n.providerAccessToken);
+
   }
 
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault()
     //setIsLoading(true)
     console.log({ email, password, name })
+    console.log(isSigningInUser,isUserLoading)
 
     try {
       const newUser = await createUserAccount({
@@ -73,7 +93,7 @@ export function UserCreateForm({ className, ...props }: UserAuthFormProps) {
       const isLoggedIn = await checkAuthUser();
   
       if(isLoggedIn){
-        navigate('/')
+        navigate('/dashboard')
       } else {
         return toast({title: "Sign up failed. Please try again."})
       }
