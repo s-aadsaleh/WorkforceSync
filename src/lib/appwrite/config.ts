@@ -1,12 +1,12 @@
 import { Client, Account, Databases, Storage, Avatars } from "appwrite";
 
 export const appwriteConfig = {
-    url: import.meta.env.VITE_APPWRITE_URL,
-    projectId: import.meta.env.VITE_APPWRITE_PROJECT_ID,
-    databaseId: import.meta.env.VITE_APPWRITE_DATABASE_ID,
-    storageId: import.meta.env.VITE_APPWRITE_STORAGE_ID,
-    usersCollectionId: import.meta.env.VITE_APPWRITE_USERS_COLLECTION_ID,
-    employeesCollectionId: import.meta.env.VITE_APPWRITE_EMPLOYEES_COLLECTION_ID
+    url: 'https://cloud.appwrite.io/v1',
+    projectId: 'workforcesync',
+    databaseId: '6575f964db73b0afb32a',
+    storageId: '6575f926b7b200ae00eb',
+    usersCollectionId: '6575fa865c309f9887d4',
+    employeesCollectionId: '6575fa094e8538298b8b'
 }
 
 export const client = new Client();

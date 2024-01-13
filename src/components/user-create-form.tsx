@@ -74,7 +74,7 @@ export function UserCreateForm({ className, ...props }: UserAuthFormProps) {
   
       if(!newUser) {
         return toast({
-          title: "Sign up failed. Please try again."
+          title: "Incorrect details. Please try again."
         })
       }
 

@@ -65,7 +65,7 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
   
       if(!session) {
         return toast({
-          title: "Log in failed. Please try again."
+          title: "Incorrect credentials. Please try again."
         })
       }
   
@@ -74,7 +74,7 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
       if(isLoggedIn){
         navigate('/dashboard')
       } else {
-        return toast({title: "Sign up failed. Please try again."})
+        return toast({title: "Log in failed. Please try again."})
       }
     } catch (error) {
       console.log({ error });
