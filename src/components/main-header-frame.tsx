@@ -1,0 +1,260 @@
+import { Button } from "@/components/ui/button"
+import {
+  CircleUser,
+  Clipboard,
+  Home,
+  LineChart,
+  Menu,
+  Package,
+  Settings2,
+  SunMoon,
+  Users,
+  Waypoints,
+} from "lucide-react"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+
+import { Link, useLocation } from "react-router-dom"
+import { ReactNode } from "react"
+import React from 'react';
+
+import DarkModeToggle from "@/components/theme-toggle"
+import { signOutAccount } from "@/lib/appwrite/api"
+
+interface MainHeaderFrameProps {
+  children: ReactNode;
+}
+
+const MainHeaderFrame = ({ children }: MainHeaderFrameProps) => {
+  
+  //Dynamic Breadcrumb navigation
+  const capitalizeFirstLetter = (str: string) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+  const location = useLocation();
+  const pathname = location.pathname;
+  const pathSegments = pathname.split('/').filter(segment => segment !== ''); // Split pathname into segments
+
+  //Dropdown menu functionality
+  const handleDropMenuItemClick = (itemName: string) => {
+    console.log(`Clicked on: ${itemName}`);
+  
+    if (itemName === 'Profile') {
+      // Handle Profile click
+    } else if (itemName === 'Billing') {
+      // Handle Billing click
+    } else if (itemName === 'Settings') {
+      // Handle Settings click
+    } else if (itemName === 'New Team') {
+      // Handle New Team click
+    } else if (itemName === 'Log out') {
+      // Call the signOutAccount function when Log out is clicked
+      signOutAccount();
+      console.log('Logging out');
+    }
+
+  };
+  
+  return (
+    <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[250px_1fr]">
+      <div className="hidden border-r bg-muted/50 md:block">
+        <div className="flex h-full max-h-screen flex-col ">
+          <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
+            <Link to="/" className="flex items-center gap-2 font-semibold">
+              <Waypoints className="h-6 w-6" />
+              <span style={{ fontSize: "large" }}>WorkforceSync</span>
+            </Link>
+          </div>
+          <div className="flex-1">
+            <nav className="grid items-start px-2 py-3 text-sm font-medium lg:px-4">
+              <Link
+                to="/dashboard"
+                className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
+                  pathname === "/dashboard" ? "bg-muted text-primary" : "text-muted-foreground"
+                } transition-all hover:text-primary`}
+              >
+                <Home className="h-5 w-5" />
+                <span style={{ fontSize: "medium" }}>Dashboard</span>
+              </Link>
+              {/* <Link
+                to="/tasks"
+                className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
+                  pathname === "/tasks" ? "bg-muted text-primary" : "text-muted-foreground"
+                } transition-all hover:text-primary`}
+              >
+                <ShoppingCart className="h-5 w-5" />
+                <span style={{ fontSize: "medium" }}>Tasks---</span>
+              </Link> */}
+              <Link
+                to="/tasks"
+                className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
+                  pathname === "/tasks" ? "bg-muted text-primary" : "text-muted-foreground"
+                } transition-all hover:text-primary`}
+              >
+                <Clipboard className="h-5 w-5" />
+                <span style={{ fontSize: "medium" }}>Tasks</span>
+              </Link>
+              <Link
+                to="/employees"
+                className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
+                  pathname.startsWith("/employees") ? "bg-muted text-primary" : "text-muted-foreground"
+                } transition-all hover:text-primary`}
+              >
+                <Users className="h-5 w-5" />
+                <span style={{ fontSize: "medium" }}>Employees</span>
+              </Link>
+              <Link
+                to="#"
+                className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
+                  pathname === "/Customers" ? "bg-muted text-primary" : "text-muted-foreground"
+                } transition-all hover:text-primary`}
+              >
+                <Users className="h-5 w-5" />
+                <span style={{ fontSize: "medium" }}>Customers</span>
+              </Link>
+              <Link
+                to="/settings"
+                className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
+                  pathname === "/settings" ? "bg-muted text-primary" : "text-muted-foreground"
+                } transition-all hover:text-primary`}
+              >
+                <Settings2 className="h-5 w-5" />
+                <span style={{ fontSize: "medium" }}>Settings</span>
+              </Link>
+            </nav>
+          </div>
+          <div className="mt-auto p-4">
+            <Button variant="ghost" size="icon" onClick={DarkModeToggle()}>
+              <SunMoon className="h-5 w-5" />
+            </Button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                className="shrink-0 md:hidden"
+              >
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Toggle navigation menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="flex flex-col">
+              <nav className="grid gap-2 text-lg font-medium">
+                <Link
+                  to="#"
+                  className="flex items-center gap-2 py-3 text-lg font-semibold"
+                >
+                  <Waypoints className="h-6 w-6" />
+                  <span>WorkforceSync</span>
+                </Link>
+                <Link
+                  to="/dashboard"
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-3 hover:text-foreground ${
+                    pathname === "/dashboard" ? "bg-muted text-foreground" : "text-muted-foreground"
+                  }`}
+                >
+                  <Home className="h-5 w-5" />
+                  Dashboard
+                </Link>
+                <Link
+                  to="/test"
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-3 hover:text-foreground ${
+                    pathname === "/tasks" ? "bg-muted text-foreground" : "text-muted-foreground"
+                  }`}
+                >
+                  <Package className="h-5 w-5" />
+                  Products
+                </Link>
+                <Link
+                  to="/test2"
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-3 hover:text-foreground ${
+                    pathname === "/test2" ? "bg-muted text-foreground" : "text-muted-foreground"
+                  }`}
+                >
+                  <Users className="h-5 w-5" />
+                  Customers
+                </Link>
+                <Link
+                  to="/test3"
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-3 hover:text-foreground ${
+                    pathname === "/test3" ? "bg-muted text-foreground" : "text-muted-foreground"
+                  }`}
+                >
+                  <LineChart className="h-5 w-5" />
+                  Analytics
+                </Link>
+                <Link
+                  to="/settings"
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-3 hover:text-foreground ${
+                    pathname === "/settings" ? "bg-muted text-foreground" : "text-muted-foreground"
+                  }`}
+                >
+                  <Settings2 className="h-5 w-5" />
+                  Settings
+                </Link>
+              </nav>
+              <div className="mt-auto p-4">
+                <Button variant="ghost" size="icon" onClick={DarkModeToggle()}>
+                  <SunMoon className="h-5 w-5" />
+                </Button>
+              </div>
+            </SheetContent>
+          </Sheet>
+          <Breadcrumb className="hidden md:flex">
+            <BreadcrumbList>
+              {pathSegments.length >= 2 && pathSegments.map((segment, index) => (
+                <React.Fragment key={index}>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink asChild>
+                      <Link to={`/${pathSegments.slice(0, index + 1).join('/')}`}>{capitalizeFirstLetter(segment)}</Link>
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                  {index < pathSegments.length - 1 && <BreadcrumbSeparator />} {/* Add separator for all segments except the last one */}
+                </React.Fragment>
+              ))}
+            </BreadcrumbList>
+          </Breadcrumb>
+          <div className="w-full flex-1">
+          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="secondary" size="icon" className="rounded-full">
+                <CircleUser className="h-5 w-5" />
+                <span className="sr-only">Toggle user menu</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => handleDropMenuItemClick('Log out')}>Logout</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </header>
+        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+          {children}
+        </main>
+      </div>
+    </div>
+  )
+}
+
+export default MainHeaderFrame;

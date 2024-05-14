@@ -16,6 +16,9 @@ import { useToast } from "@/components/ui/use-toast"
 import { useSignInAccount } from "@/lib/react-query/queries"
 import { useUserContext } from "@/context/AuthContext";
 
+import { signOutAccount } from "@/lib/appwrite/api"
+
+
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
@@ -41,15 +44,15 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
 //   const { mutateAsync: createUserAccount, isPending: isCreatingAccount } = useCreateUserAccount();
   const { mutateAsync: signInAccount, isPending: isSigningInUser } = useSignInAccount();
 
-  const googleAuth = () =>{
-    // console.log('Google authentication initiated');
-    // account.createOAuth2Session(
-    //   'google', 
-    //   "http://workforcesync.vercel.app/dashboard", 
-    //   "http://workforcesync.vercel.app/login"
-    //   );
+  // const googleAuth = () =>{
+  //   console.log('Google authentication initiated');
+  //   account.createOAuth2Session(
+  //     'google', 
+  //     "http://workforcesync.vercel.app/dashboard", 
+  //     "http://workforcesync.vercel.app/login"
+  //     );
   
-  }
+  // }
 
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault()
@@ -158,7 +161,8 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
       </div>
       <Button  type="button" onClick={() => {
         console.log('Button Clicked');
-        googleAuth(); 
+        // googleAuth(); 
+        signOutAccount();
       }} disabled={isSigningInUser}>
         {isSigningInUser ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
