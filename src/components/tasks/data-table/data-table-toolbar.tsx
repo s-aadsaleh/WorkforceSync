@@ -22,7 +22,6 @@ import {
 } from "@/components/ui/select"
 import { Toaster, toast } from "sonner"
 
-
 import { DataTableViewOptions } from "./data-table-view-options"
 
 import { priorities, statuses } from "../data/data"
@@ -40,13 +39,12 @@ interface DataTableToolbarProps<TData> {
   table: Table<TData>
 }
 
-
 export function DataTableToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
 
-  const [dueDate, setDueDate] = useState('');
+  const [dueDate, setDueDate] = useState<Date | undefined>(undefined);
   
   const [employeeNames, setEmployeeNames] = useState<string[]>([]);
   const [selectedEmployee, setSelectedEmployee] = useState('');
@@ -73,16 +71,13 @@ export function DataTableToolbar<TData>({
     const newTaskId = parseInt((document.getElementById('newTaskId') as HTMLInputElement)?.value, 10);
     const title = (document.getElementById('title') as HTMLInputElement)?.value;
 
-    // const [selectedStatus] = useState<string>(''); // Provide a default value
-    // const [selectedPriority ] = useState<string>(''); // Provide a default value
-
     const taskData = {
         Title: title,
         Status: selectedStatus,
         Priority: selectedPriority,
         Description: '', // Assuming you want to set a default description
         'Task-ID': newTaskId,
-        DueDate: dueDate,
+        DueDate: dueDate ? format(dueDate, "yyyy-MM-dd") : '',  // Convert Date to string
         Assigned: selectedEmployee,
     };
   
@@ -170,7 +165,6 @@ export function DataTableToolbar<TData>({
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="dueDate" className="text-right">Due Date</Label>
-                {/* <div className="py-1"/> */}
                 <Popover>
                     <PopoverTrigger asChild>
                         <Button variant="outline" className="col-span-3">
@@ -202,9 +196,6 @@ export function DataTableToolbar<TData>({
                     <SelectItem value="Canceled">Canceled</SelectItem>
                   </SelectContent>
                 </Select>
-                {/* <button onClick={() => console.log(selectedStatus)}>
-                  Log Selected Status
-                </button> */}
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label className="text-right">

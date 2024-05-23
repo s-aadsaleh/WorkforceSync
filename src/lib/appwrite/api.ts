@@ -1,6 +1,6 @@
 import { ID, Query,  } from 'appwrite';
 
-import { INewUser } from "@/types";
+import { INewUser } from "../../types/index";
 import { account, appwriteConfig, avatars, databases, storage} from './config';
 import { toast } from 'sonner';
 

@@ -8,8 +8,7 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-  } from "@/components/ui/select"
-
+} from "@/components/ui/select"
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -21,17 +20,14 @@ import { CalendarIcon } from 'lucide-react';
 import { useState } from 'react';
 import { Toaster, toast } from 'sonner';
 
-
-
-
 const EmpAddPage = () => {
     const [empId, setEmpId] = useState('');
     const [empName, setEmpName] = useState('');
-    const [joinDate, setJoinDate] = useState('');
+    const [joinDate, setJoinDate] = useState<Date | undefined>(undefined);
     const [status, setStatus] = useState('');
     const [empPNumber, setEmpPNumber] = useState('');
     const [empEmail, setEmpEmail] = useState('');
-    const [dob, setDob] = useState('');
+    const [dob, setDob] = useState<Date | undefined>(undefined);
     const [position, setPosition] = useState('');
     const [education, setEducation] = useState('');
     const [address, setAddress] = useState('');
@@ -40,17 +36,21 @@ const EmpAddPage = () => {
     const [aadharFile, setAadharFile] = useState<File | null>(null);
     const [photoFile, setPhotoFile] = useState<File | null>(null);
     const [resumeFile, setResumeFile] = useState<File | null>(null);
-    // const [miscFile, setMiscFile] = useState<File | null>(null);
-    
+
     const handleSubmit = async () => {
+        if (!joinDate || !dob) {
+            toast("Join Date and Date of Birth are required.");
+            return;
+        }
+
         const empData = {
             'EmpID': empId,
             'EmpName': empName,
-            'JoinDate': new Date(joinDate),
+            'JoinDate': joinDate,
             'Status': status,
             'EmpPNumber': empPNumber,
             'EmpEmail': empEmail,
-            'DOB': new Date(dob),
+            'DOB': dob,
             'CurrentPosition': position,
             'Education': education,
             'Address': address,
@@ -62,34 +62,8 @@ const EmpAddPage = () => {
             'Aadhar': aadharFile,
             'Photo': photoFile,
             'Resume': resumeFile,
-            // 'Misc': miscFile,
         };
 
-        // try {
-        //     await addEmployee(empData, fileData);
-        //     console.log('Employee added successfully');
-        //     toast("Employee added successfully"); // Display the success toast message
-        //     // Reset form fields
-        //     setEmpId('');
-        //     setEmpName('');
-        //     setJoinDate('');
-        //     setStatus('');
-        //     setEmpPNumber('');
-        //     setEmpEmail('');
-        //     setDob('');
-        //     setPosition('');
-        //     setEducation('');
-        //     setAddress('');
-        //     setEmergency('');
-        //     setPanFile(null);
-        //     setAadharFile(null);
-        //     setPhotoFile(null);
-        //     setResumeFile(null);
-        //     // setMiscFile(null);
-        // } catch (error: any) {
-        //     console.error('Error adding employee:', error);
-        //     toast("Uh oh! Something went wrong. Employee not added. Error: " + error.message); // Display the error message in the toast
-        // }
         const result = await addEmployee(empData, fileData);
 
         if (result) {
@@ -98,11 +72,11 @@ const EmpAddPage = () => {
             // Reset form fields
             setEmpId('');
             setEmpName('');
-            setJoinDate('');
+            setJoinDate(undefined);
             setStatus('');
             setEmpPNumber('');
             setEmpEmail('');
-            setDob('');
+            setDob(undefined);
             setPosition('');
             setEducation('');
             setAddress('');
@@ -111,13 +85,11 @@ const EmpAddPage = () => {
             setAadharFile(null);
             setPhotoFile(null);
             setResumeFile(null);
-            // setMiscFile(null);
         } else {
             const error = new Error('Employee not added successfully');
             console.error('Error adding employee:', error);
             toast("Uh oh! Something went wrong. Employee not added.");
         }
-        
     };
 
     return (
@@ -164,7 +136,7 @@ const EmpAddPage = () => {
                                         <div>
                                             <Label htmlFor="dob">Date of Birth</Label>
                                             <div className="py-1"/>
-                                            {/* <Popover>
+                                            <Popover>
                                                 <PopoverTrigger asChild>
                                                     <Button variant="outline" className="w-full">
                                                         <CalendarIcon className="h-5 w-5 mr-2" />
@@ -174,8 +146,7 @@ const EmpAddPage = () => {
                                                 <PopoverContent>
                                                     <Calendar mode="single" selected={dob} onSelect={setDob} initialFocus />
                                                 </PopoverContent>
-                                            </Popover> */}
-                                            <Input id="dob" type="date" value={dob} onChange={(e) => setDob(e.target.value)} />
+                                            </Popover>
                                         </div>
                                         <div>
                                             <Label htmlFor="empPNumber">Phone Number</Label>
@@ -187,11 +158,6 @@ const EmpAddPage = () => {
                                             <div className="py-1"/>
                                             <Input id="empEmail" type="email" value={empEmail} onChange={(e) => setEmpEmail(e.target.value)} />
                                         </div>
-                                        {/* <div>
-                                            <Label htmlFor="status">Status</Label>
-                                            <div className="py-1"/>
-                                            <Input id="status" type="text" value={status} onChange={(e) => setStatus(e.target.value)} />
-                                        </div> */}
                                         <div>
                                             <Label>Status</Label>
                                             <div className="py-1"/>
@@ -210,9 +176,6 @@ const EmpAddPage = () => {
                                                 <SelectItem value="Intern">Intern</SelectItem>
                                             </SelectContent>
                                             </Select>
-                                            {/* <button onClick={() => console.log(selectedStatus)}>
-                                            Log Selected Status
-                                            </button> */}
                                         </div>
                                         <div>
                                             <Label htmlFor="position">Current Position</Label>
@@ -238,53 +201,49 @@ const EmpAddPage = () => {
                                 </CardContent>
                             </Card>
                         </div>
-                        <div className="w-8"></div>
-                        <div className="flex-grow max-w-md">
-                            {/* Card for File Uploads */}
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Add Files</CardTitle>
-                                    <CardDescription>Upload employee documents</CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="grid grid-cols-1 gap-7 px-2">
-                                        <div>
-                                            <Label htmlFor="pan">PAN</Label>
-                                            <div className="py-1"/>
-                                            <Input id="pan" type="file" onChange={(e) => setPanFile(e.target.files?.[0] || null)} />
-                                        </div>
-                                        <div>
-                                            <Label htmlFor="aadhar">Aadhar</Label>
-                                            <div className="py-1"/>
-                                            <Input id="aadhar" type="file" onChange={(e) => setAadharFile(e.target.files?.[0] || null)} />
-                                        </div>
-                                        <div>
-                                            <Label htmlFor="photo">Photo</Label>
-                                            <div className="py-1"/>
-                                            <Input id="photo" type="file" onChange={(e) => setPhotoFile(e.target.files?.[0] || null)} />
-                                        </div>
-                                        <div>
-                                            <Label htmlFor="resume">Resume</Label>
-                                            <div className="py-1"/>
-                                            <Input id="resume" type="file" onChange={(e) => setResumeFile(e.target.files?.[0] || null)} />
-                                        </div>
-                                    </div>
-
-
-                                <div className="flex justify-center pt-10">
-                                    <Button onClick={handleSubmit} size="sm" className="w-3/4" >Add Employee</Button>
-                                </div>
-
-                                </CardContent>
-                            </Card>
-                        </div>
                         <div className="w-1/4"></div> {/* Spacer */}
                     </div>
+                    <div className="flex justify-center mt-8">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Upload Files</CardTitle>
+                                <CardDescription>Upload the necessary documents</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="grid grid-cols-1 gap-4">
+                                    <div>
+                                        <Label htmlFor="panFile">PAN Card</Label>
+                                        <div className="py-1"/>
+                                        <Input id="panFile" type="file" onChange={(e) => setPanFile(e.target.files ? e.target.files[0] : null)} />
+                                    </div>
+                                    <div>
+                                        <Label htmlFor="aadharFile">Aadhar Card</Label>
+                                        <div className="py-1"/>
+                                        <Input id="aadharFile" type="file" onChange={(e) => setAadharFile(e.target.files ? e.target.files[0] : null)} />
+                                    </div>
+                                    <div>
+                                        <Label htmlFor="photoFile">Photo</Label>
+                                        <div className="py-1"/>
+                                        <Input id="photoFile" type="file" onChange={(e) => setPhotoFile(e.target.files ? e.target.files[0] : null)} />
+                                    </div>
+                                    <div>
+                                        <Label htmlFor="resumeFile">Resume</Label>
+                                        <div className="py-1"/>
+                                        <Input id="resumeFile" type="file" onChange={(e) => setResumeFile(e.target.files ? e.target.files[0] : null)} />
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </div>
+                    <div className="w-1/4"></div> {/* Spacer */}
                 </div>
+                <div className="flex justify-center mt-8">
+                    <Button onClick={handleSubmit}>Submit</Button>
+                </div>
+                <Toaster /> {/* Add the Toaster component to render the toast messages */}
             </div>
-            <Toaster />
         </MainHeaderFrame>
     );
-}
+};
 
 export default EmpAddPage;

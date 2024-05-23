@@ -31,7 +31,7 @@ import {
     // savePost,
     // deleteSavedPost,
   } from "@/lib/appwrite/api";
-  import {  INewUser } from "@/types";
+  import {  INewUser } from "../../types/index";
   // import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
 
   

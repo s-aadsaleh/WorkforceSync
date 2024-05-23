@@ -1,5 +1,4 @@
 import MainHeaderFrame from '@/components/main-header-frame'
-import React from 'react'
 
 const PayrollPage = () => {
   return (
