@@ -3,13 +3,18 @@ import {
   CircleUser,
   Clipboard,
   Home,
-  LineChart,
   Menu,
-  Package,
   Settings2,
   SunMoon,
   Users,
   Waypoints,
+  HandCoins,
+  ListCollapse,
+  UserPlus,
+  BookUser,
+  MonitorSmartphone,
+  MonitorCheck,
+  FileStack,
 } from "lucide-react"
 import {
   DropdownMenu,
@@ -90,15 +95,6 @@ const MainHeaderFrame = ({ children }: MainHeaderFrameProps) => {
                 <Home className="h-5 w-5" />
                 <span style={{ fontSize: "medium" }}>Dashboard</span>
               </Link>
-              {/* <Link
-                to="/tasks"
-                className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
-                  pathname === "/tasks" ? "bg-muted text-primary" : "text-muted-foreground"
-                } transition-all hover:text-primary`}
-              >
-                <ShoppingCart className="h-5 w-5" />
-                <span style={{ fontSize: "medium" }}>Tasks---</span>
-              </Link> */}
               <Link
                 to="/tasks"
                 className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
@@ -108,23 +104,87 @@ const MainHeaderFrame = ({ children }: MainHeaderFrameProps) => {
                 <Clipboard className="h-5 w-5" />
                 <span style={{ fontSize: "medium" }}>Tasks</span>
               </Link>
+              <div>
+                <Link
+                  to="/employees"
+                  className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
+                    pathname.startsWith("/employees") ? "bg-muted text-primary" : "text-muted-foreground"
+                  } transition-all hover:text-primary`}
+                >
+                  <Users className="h-5 w-5" />
+                  <span style={{ fontSize: "medium" }}>Employees</span>
+                </Link>
+                {pathname.startsWith("/employees") && (
+                  <div className="ml-6 py-1">
+                    <Link
+                      to="/employees/directory"
+                      className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
+                        pathname === "/employees/directory" ? "bg-muted text-primary" : "text-muted-foreground"
+                      } transition-all hover:text-primary`}
+                    >
+                      <BookUser className="h-5 w-5" />
+                      Employee Directory
+                    </Link>
+                    <Link
+                      to="/employees/directory/details"
+                      className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
+                        pathname === "/employees/directory/details" ? "bg-muted text-primary" : "text-muted-foreground"
+                      } transition-all hover:text-primary`}
+                    >
+                      <ListCollapse className="h-5 w-5" />
+                      Employee Details
+                    </Link>
+                    <Link
+                      to="/employees/directory/add"
+                      className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
+                        pathname === "/employees/directory/add" ? "bg-muted text-primary" : "text-muted-foreground"
+                      } transition-all hover:text-primary`}
+                    >
+                      <UserPlus className="h-5 w-5" />
+                      Add Employees
+                    </Link>
+                  </div>
+                )}
+              </div>
               <Link
-                to="/employees"
+                to="/payroll"
                 className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
-                  pathname.startsWith("/employees") ? "bg-muted text-primary" : "text-muted-foreground"
+                  pathname.startsWith("/payroll") ? "bg-muted text-primary" : "text-muted-foreground"
                 } transition-all hover:text-primary`}
               >
-                <Users className="h-5 w-5" />
-                <span style={{ fontSize: "medium" }}>Employees</span>
+                <HandCoins className="h-5 w-5" />
+                <span style={{ fontSize: "medium" }}>Payroll</span>
               </Link>
               <Link
-                to="#"
+                to="/assets"
                 className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
-                  pathname === "/Customers" ? "bg-muted text-primary" : "text-muted-foreground"
+                  pathname.startsWith("/assets") ? "bg-muted text-primary" : "text-muted-foreground"
                 } transition-all hover:text-primary`}
               >
-                <Users className="h-5 w-5" />
-                <span style={{ fontSize: "medium" }}>Customers</span>
+                <MonitorSmartphone className="h-5 w-5" />
+                <span style={{ fontSize: "medium" }}>Asset Management</span>
+              </Link>
+              {pathname.startsWith("/assets") && (
+                  <div className="ml-6 py-1">
+                    <Link
+                      to="/assets/register"
+                      className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
+                        pathname === "/assets/register" ? "bg-muted text-primary" : "text-muted-foreground"
+                      } transition-all hover:text-primary`}
+                    >
+                      <MonitorCheck className="h-5 w-5" />
+                      Register Assets
+                    </Link>
+                  </div>
+                )}
+              <Link
+                to="/files"
+                className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
+                  pathname === "/files" ? "bg-muted text-primary" : "text-muted-foreground"
+                } transition-all hover:text-primary`}
+              >
+                <FileStack className="h-5 w-5" />
+                <span style={{ fontSize: "medium" }}>File Storage</span>
               </Link>
               <Link
                 to="/settings"
@@ -160,7 +220,7 @@ const MainHeaderFrame = ({ children }: MainHeaderFrameProps) => {
             <SheetContent side="left" className="flex flex-col">
               <nav className="grid gap-2 text-lg font-medium">
                 <Link
-                  to="#"
+                  to="/"
                   className="flex items-center gap-2 py-3 text-lg font-semibold"
                 >
                   <Waypoints className="h-6 w-6" />
@@ -168,45 +228,45 @@ const MainHeaderFrame = ({ children }: MainHeaderFrameProps) => {
                 </Link>
                 <Link
                   to="/dashboard"
-                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-3 hover:text-foreground ${
-                    pathname === "/dashboard" ? "bg-muted text-foreground" : "text-muted-foreground"
-                  }`}
+                  className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
+                    pathname === "/dashboard" ? "bg-muted text-primary" : "text-muted-foreground"
+                  } transition-all hover:text-primary`}
                 >
                   <Home className="h-5 w-5" />
                   Dashboard
                 </Link>
                 <Link
-                  to="/test"
-                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-3 hover:text-foreground ${
-                    pathname === "/tasks" ? "bg-muted text-foreground" : "text-muted-foreground"
-                  }`}
+                  to="/tasks"
+                  className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
+                    pathname === "/tasks" ? "bg-muted text-primary" : "text-muted-foreground"
+                  } transition-all hover:text-primary`}
                 >
-                  <Package className="h-5 w-5" />
-                  Products
+                  <Clipboard className="h-5 w-5" />
+                  Tasks
                 </Link>
                 <Link
-                  to="/test2"
-                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-3 hover:text-foreground ${
-                    pathname === "/test2" ? "bg-muted text-foreground" : "text-muted-foreground"
-                  }`}
+                  to="/employees"
+                  className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
+                    pathname.startsWith("/employees") ? "bg-muted text-primary" : "text-muted-foreground"
+                  } transition-all hover:text-primary`}
                 >
                   <Users className="h-5 w-5" />
-                  Customers
+                  Employees
                 </Link>
                 <Link
-                  to="/test3"
-                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-3 hover:text-foreground ${
-                    pathname === "/test3" ? "bg-muted text-foreground" : "text-muted-foreground"
-                  }`}
+                  to="/payroll"
+                  className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
+                    pathname.startsWith("/payroll") ? "bg-muted text-primary" : "text-muted-foreground"
+                  } transition-all hover:text-primary`}
                 >
-                  <LineChart className="h-5 w-5" />
-                  Analytics
+                  <HandCoins className="h-5 w-5" />
+                  Payroll
                 </Link>
                 <Link
                   to="/settings"
-                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-3 hover:text-foreground ${
-                    pathname === "/settings" ? "bg-muted text-foreground" : "text-muted-foreground"
-                  }`}
+                  className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
+                    pathname === "/settings" ? "bg-muted text-primary" : "text-muted-foreground"
+                  } transition-all hover:text-primary`}
                 >
                   <Settings2 className="h-5 w-5" />
                   Settings
@@ -221,7 +281,7 @@ const MainHeaderFrame = ({ children }: MainHeaderFrameProps) => {
           </Sheet>
           <Breadcrumb className="hidden md:flex">
             <BreadcrumbList>
-              {pathSegments.length >= 2 && pathSegments.map((segment, index) => (
+              {pathSegments.length >= 0 && pathSegments.map((segment, index) => (
                 <React.Fragment key={index}>
                   <BreadcrumbItem>
                     <BreadcrumbLink asChild>

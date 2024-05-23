@@ -1,7 +1,14 @@
 import MainHeaderFrame from '@/components/main-header-frame';
 import { Button } from '@/components/ui/button';
-// import { Calendar } from '@/components/ui/calendar';
+import { Calendar } from '@/components/ui/calendar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+  } from "@/components/ui/select"
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -58,10 +65,36 @@ const EmpAddPage = () => {
             // 'Misc': miscFile,
         };
 
-        try {
-            await addEmployee(empData, fileData);
+        // try {
+        //     await addEmployee(empData, fileData);
+        //     console.log('Employee added successfully');
+        //     toast("Employee added successfully"); // Display the success toast message
+        //     // Reset form fields
+        //     setEmpId('');
+        //     setEmpName('');
+        //     setJoinDate('');
+        //     setStatus('');
+        //     setEmpPNumber('');
+        //     setEmpEmail('');
+        //     setDob('');
+        //     setPosition('');
+        //     setEducation('');
+        //     setAddress('');
+        //     setEmergency('');
+        //     setPanFile(null);
+        //     setAadharFile(null);
+        //     setPhotoFile(null);
+        //     setResumeFile(null);
+        //     // setMiscFile(null);
+        // } catch (error: any) {
+        //     console.error('Error adding employee:', error);
+        //     toast("Uh oh! Something went wrong. Employee not added. Error: " + error.message); // Display the error message in the toast
+        // }
+        const result = await addEmployee(empData, fileData);
+
+        if (result) {
             console.log('Employee added successfully');
-            toast("Employee added successfully."); // Display the success toast message
+            toast("Employee added successfully"); // Display the success toast message
             // Reset form fields
             setEmpId('');
             setEmpName('');
@@ -79,10 +112,12 @@ const EmpAddPage = () => {
             setPhotoFile(null);
             setResumeFile(null);
             // setMiscFile(null);
-        } catch (error) {
+        } else {
+            const error = new Error('Employee not added successfully');
             console.error('Error adding employee:', error);
             toast("Uh oh! Something went wrong. Employee not added.");
         }
+        
     };
 
     return (
@@ -122,14 +157,14 @@ const EmpAddPage = () => {
                                                     </Button>
                                                 </PopoverTrigger>
                                                 <PopoverContent>
-                                                    {/* <Calendar mode="single" selected={joinDate} onSelect={setJoinDate} initialFocus /> */}
+                                                    <Calendar mode="single" selected={joinDate} onSelect={setJoinDate} initialFocus />
                                                 </PopoverContent>
                                             </Popover>
                                         </div>
                                         <div>
                                             <Label htmlFor="dob">Date of Birth</Label>
                                             <div className="py-1"/>
-                                            <Popover>
+                                            {/* <Popover>
                                                 <PopoverTrigger asChild>
                                                     <Button variant="outline" className="w-full">
                                                         <CalendarIcon className="h-5 w-5 mr-2" />
@@ -137,9 +172,10 @@ const EmpAddPage = () => {
                                                     </Button>
                                                 </PopoverTrigger>
                                                 <PopoverContent>
-                                                    {/* <Calendar mode="single" selected={dob} onSelect={setDob} initialFocus /> */}
+                                                    <Calendar mode="single" selected={dob} onSelect={setDob} initialFocus />
                                                 </PopoverContent>
-                                            </Popover>
+                                            </Popover> */}
+                                            <Input id="dob" type="date" value={dob} onChange={(e) => setDob(e.target.value)} />
                                         </div>
                                         <div>
                                             <Label htmlFor="empPNumber">Phone Number</Label>
@@ -151,10 +187,32 @@ const EmpAddPage = () => {
                                             <div className="py-1"/>
                                             <Input id="empEmail" type="email" value={empEmail} onChange={(e) => setEmpEmail(e.target.value)} />
                                         </div>
-                                        <div>
+                                        {/* <div>
                                             <Label htmlFor="status">Status</Label>
                                             <div className="py-1"/>
                                             <Input id="status" type="text" value={status} onChange={(e) => setStatus(e.target.value)} />
+                                        </div> */}
+                                        <div>
+                                            <Label>Status</Label>
+                                            <div className="py-1"/>
+                                            <Select
+                                            value={status}
+                                            onValueChange={(value) => setStatus(value)}
+                                            >
+                                            <SelectTrigger className="w-[180px]">
+                                                <SelectValue placeholder="Select Status" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="Probation">Probation</SelectItem>
+                                                <SelectItem value="Confirmed">Confirmed</SelectItem>
+                                                <SelectItem value="Contract">Contract</SelectItem>
+                                                <SelectItem value="Trainee">Trainee</SelectItem>
+                                                <SelectItem value="Intern">Intern</SelectItem>
+                                            </SelectContent>
+                                            </Select>
+                                            {/* <button onClick={() => console.log(selectedStatus)}>
+                                            Log Selected Status
+                                            </button> */}
                                         </div>
                                         <div>
                                             <Label htmlFor="position">Current Position</Label>
@@ -227,12 +285,6 @@ const EmpAddPage = () => {
             <Toaster />
         </MainHeaderFrame>
     );
-    
-    
-    
-    
-    
-    
 }
 
 export default EmpAddPage;

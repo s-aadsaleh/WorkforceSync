@@ -2,6 +2,7 @@ import { ID, Query,  } from 'appwrite';
 
 import { INewUser } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage} from './config';
+import { toast } from 'sonner';
 
 
 
@@ -116,27 +117,13 @@ import { account, appwriteConfig, avatars, databases, storage} from './config';
 
 // ================================================================= KANBAN =================================================================
 // ============================== GET TASKS
-  // export async function getTasks() {
-  //   try {
-  //     const currentTasks = await databases.listDocuments(
-  //       appwriteConfig.databaseId,
-  //       appwriteConfig.tasksCollectionId,
-  //       [Query.select("title", "description", "dueDate", "stageID", appwriteConfig.boardId)]
-  //     );
-  
-  //     return currentTasks.documents;
-  //   } catch (error) {
-  //     console.log(error);
-  //     return null;
-  //   }
-  // }
 
   export async function getTasks() {
     try {
       const currentTasks = await databases.listDocuments(
         appwriteConfig.databaseId,
         appwriteConfig.taskCollectionId,
-        [Query.select([ '$id', 'Task-ID', 'Title', 'Status', 'Priority', 'Due-Date', 'Description'])]
+        [Query.select([ '$id', 'Task-ID', 'Title', 'Status', 'Priority', 'DueDate', 'Description', 'Assigned'])]
       );
   
       return currentTasks.documents;
@@ -152,6 +139,8 @@ import { account, appwriteConfig, avatars, databases, storage} from './config';
     'Status': string;
     'Priority': string;
     'Description': string;
+    'DueDate': string;
+    "Assigned": string;
 }
 
 export async function addTask(taskData: TaskData) {
@@ -252,7 +241,23 @@ export async function getEmpData() {
 
     return currentEmps.documents;
   } catch (error) {
-    console.error('Error fetching tasks:', error);
+    console.error('Error fetching employees:', error);
+    return null;
+  }
+}
+
+export async function getEmpNamesData() {
+  try {
+    const currentEmps = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.employeesCollectionId,
+      [Query.select([ 'EmpName'])]
+    );
+
+    console.log(currentEmps.documents);
+    return currentEmps.documents;
+  } catch (error) {
+    console.error('Error fetching employees:', error);
     return null;
   }
 }
@@ -296,6 +301,7 @@ export async function getEmpDetailedData(empID: string) {
     return empData;
   } catch (error) {
     console.error('Error fetching employee details:', error);
+    toast("Employee ID not recognized.");
     return null;
   }
 }

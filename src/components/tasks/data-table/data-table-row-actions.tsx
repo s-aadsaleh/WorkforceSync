@@ -17,6 +17,7 @@ import {
 
 import { taskSchema } from "../data/schema"
 import { deleteTask,  updateTaskStatus } from "@/lib/appwrite/api"
+import { toast } from "sonner"
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>
@@ -68,6 +69,7 @@ export function DataTableRowActions<TData>({
     try {
       deleteTask(task.id);
       console.log(`Deleting the task "${task.title}".`);
+      toast(`Deleting the task "${task.title}".`);
       setTimeout(() => {
         window.location.reload();
       }, 1200);

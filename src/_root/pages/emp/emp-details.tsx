@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { downloadEmpFile, getEmpDetailedData } from "@/lib/appwrite/api";
 import {  useEffect, useState } from "react";
+import { Toaster, toast } from "sonner";
 
 const EmpDetailsPage = () => {
     const [empID, setEmpID] = useState('');
@@ -31,6 +32,12 @@ const EmpDetailsPage = () => {
     useEffect(() => {
         console.log('Employee data:', empData);
     }, [empData]);
+    
+    const handleEnterPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            handleButtonClick();
+        }
+      };
 
     const handleButtonClick = async () => {
         if (empID) {
@@ -57,11 +64,13 @@ const EmpDetailsPage = () => {
                 });
             } catch (error) {
                 console.error('Error:', error);
+                toast("Uh oh! Something went wrong. Task not added.");
             }
         } else {
             console.error('Employee ID is required');
+            toast("Employee ID is required.");
         }
-    };
+    };  
 
     const [panUrl, setPanUrl] = useState('');
     const [aadharUrl, setAadharUrl] = useState('');
@@ -95,12 +104,12 @@ const EmpDetailsPage = () => {
                 <Card>
                     <CardHeader>
                         <CardTitle>Employee Details</CardTitle>
-                        <CardDescription>Select an employee to view their details</CardDescription>
+                        <CardDescription>Input ID of an employee to view their details</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <div className="flex flex-col space-y-4">
                             <div className="flex w-full max-w-sm items-center space-x-2 py-5">
-                                <Input id="empID" placeholder="Employee ID" value={empID} onChange={(e) => setEmpID(e.target.value)} />
+                                <Input id="empID" placeholder="Employee ID" onKeyDown={handleEnterPress} value={empID} onChange={(e) => setEmpID(e.target.value)} />
                                 <Button onClick={handleButtonClick}>Fetch</Button>
                             </div>
                             <Separator />
@@ -267,6 +276,7 @@ const EmpDetailsPage = () => {
                         </div>
                     </CardContent>
                 </Card>
+                <Toaster />
             </div>
         </MainHeaderFrame>
     );

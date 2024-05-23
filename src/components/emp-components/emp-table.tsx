@@ -23,6 +23,7 @@ import {
 
 import { EmpTableToolbar } from "./emp-table-toolbar"
 import { EmpTablePagination } from "./emp-table-pagination"
+import LoadingSpinner from "../loadingSpinner"
 
 interface EmpTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -34,6 +35,8 @@ export function EmpTable<TData, TValue>({
   data,
 }: EmpTableProps<TData, TValue>) {
     
+  const [isLoading, setIsLoading] = React.useState(true); // Initialize loading state
+
     const [sorting, setSorting] = React.useState<SortingState>([])
 
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -64,6 +67,17 @@ export function EmpTable<TData, TValue>({
         },
     })
 
+    // Simulate data fetching completion
+    React.useEffect(() => {
+      // Simulate data fetching delay
+      const fetchData = async () => {
+          await new Promise((resolve) => setTimeout(resolve, 500)); // Simulated delay
+          setIsLoading(false); // Update loading state when data is fetched
+      };
+
+      fetchData();
+  }, []); // Run effect only once on component mount
+
 return (
     <div className="space-y-4">
       <EmpTableToolbar table={table} />
@@ -82,13 +96,19 @@ return (
                             header.getContext()
                           )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {isLoading || !table.getRowModel().rows ? ( // Show loading spinner if isLoading or data is not available
+              <TableRow>
+                <TableCell colSpan={columns.length} className="py-8">
+                  <LoadingSpinner size={24} className="mx-auto" />
+                </TableCell>
+              </TableRow>
+            ) : (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
@@ -104,20 +124,11 @@ return (
                   ))}
                 </TableRow>
               ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
       <EmpTablePagination table={table} />
     </div>
-  )
+);
 }

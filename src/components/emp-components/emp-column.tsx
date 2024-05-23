@@ -35,15 +35,15 @@ export const columns: ColumnDef<Employee>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-{
-  accessorKey: "EmpID",
-  header: ({ column }) => (
-    <EmpTableColumnHeader column={column} title="ID" />
-  ),
-  cell: ({ row }) => <div className="w-[60px]">{row.getValue("EmpID")}</div>, // Adjust width here
-  enableSorting: true,
-  enableHiding: true,
-},
+  {
+    accessorKey: "EmpID",
+    header: ({ column }) => (
+      <EmpTableColumnHeader column={column} title="ID" />
+    ),
+    cell: ({ row }) => <div className="w-[60px]">{row.getValue("EmpID")}</div>, // Adjust width here
+    enableSorting: true,
+    enableHiding: true,
+  },
   {
     accessorKey: "EmpName",
     header: ({ column }) => (
@@ -88,35 +88,6 @@ export const columns: ColumnDef<Employee>[] = [
     enableSorting: true,
     enableHiding: true,
   },
-  // {
-  //   accessorKey: "Status",
-  //   header: ({ column }) => (
-  //     <EmpTableColumnHeader column={column} title="Status" />
-  //   ),
-  //   cell: ({ row }) => {
-  //     const status = statuses.find(
-  //       (status) => status.value === row.getValue("Status")
-  //     )
-
-  //     if (!status) {
-  //       return null
-  //     }
-
-  //     return (
-  //       <div className="flex w-[100px] items-center">
-  //         {status.icon && (
-  //           <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-  //         )}
-  //         <span>{status.label}</span>
-  //       </div>
-  //     )
-  //   },
-  //   filterFn: (row, id, value) => {
-  //     return value.includes(row.getValue(id))
-  //   },
-  //   enableSorting: false,
-  //   enableHiding: true,
-  // },
   {
     accessorKey: "Status",
     header: ({ column }) => (

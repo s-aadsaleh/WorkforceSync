@@ -4,14 +4,13 @@ import './globals.css';
 
 import LoginForm from './_auth/_forms/LoginForm';
 import SignupForm from './_auth/_forms/SignupForm';
-// import { Dashboard } from './_root/pages';
+
 import AuthLayout from './_auth/AuthLayout';
 import RootLayout from './_root/RootLayout';
 
 import { Toaster } from "@/components/ui/toaster";
 import DashPage from './_root/pages/dash';
-// import List from './_root/pages/tasks/list';
-import Chat from './_root/pages/chat';
+
 import SettPage from './_root/pages/settings';
 import TasksPage from './_root/pages/tasks';
 import EmpPage from './_root/pages/emp/employees';
@@ -19,6 +18,10 @@ import EmpOverviewPage from './_root/pages/emp/emp-overview';
 import EmpDirectoryPage from './_root/pages/emp/emp-directory';
 import EmpAddPage from './_root/pages/emp/emp-add';
 import EmpDetailsPage from './_root/pages/emp/emp-details';
+import PayrollPage from './_root/pages/payroll/payroll';
+import AssetMGMTPage from './_root/pages/assets-mgmt/assets';
+import AssetRegisterPage from './_root/pages/assets-mgmt/assets-register';
+import FileMGMTPage from './_root/pages/file-storage/file-mgmt';
 
 
 const App = () => {
@@ -30,20 +33,28 @@ const App = () => {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<SignupForm />} />
           <Route path="/dashboard" element={<DashPage />} />
-          <Route path="/chat" element={<Chat />} />
           <Route path="/settings" element={<SettPage />} />
           <Route path="/tasks" element={<TasksPage />} />
-          {/* <Route path="/tasks">
-            <Route index element={<List />} />
-          </Route> */}
-          <Route path="/employees">
-            <Route index element={<EmpPage />} /> {/* Renders when URL matches "/employees" */}
-            <Route path="overview" element={<EmpOverviewPage />} /> {/* Renders when URL matches "/employees/overview" */}
-            <Route path="directory" element={<EmpDirectoryPage />} /> {/* Renders when URL matches "/employees/directory"*/}
-            <Route path="directory/add" element={<EmpAddPage />} /> {/* Renders when URL matches "/employees/directory/add" */}
-            <Route path="directory/details" element={<EmpDetailsPage />} /> {/* Renders when URL matches "/employees/directory/add" */}
 
+          <Route path="/employees">
+            <Route index element={<EmpPage />} />
+            <Route path="overview" element={<EmpOverviewPage />} /> 
+            <Route path="directory" element={<EmpDirectoryPage />} /> 
+            <Route path="directory/add" element={<EmpAddPage />} /> 
+            <Route path="directory/details" element={<EmpDetailsPage />} /> 
           </Route>
+
+          <Route path="/payroll">
+            <Route index element={<PayrollPage />} />
+          </Route>
+
+          <Route path="/assets">
+            <Route index element={<AssetMGMTPage />} />
+            <Route path="register" element={<AssetRegisterPage />} /> 
+          </Route>
+
+          <Route path="/files" element={<FileMGMTPage />} />
+        
         </Route>
 
         {/* private routes */}

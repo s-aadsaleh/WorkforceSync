@@ -1,4 +1,5 @@
-
+import Icon from "@ant-design/icons";
+import type { CustomIconComponentProps } from "@ant-design/icons/lib/components/Icon";
 
 export const TextIconSvg = () => (
   <svg
@@ -26,3 +27,6 @@ export const TextIconSvg = () => (
   </svg>
 );
 
+export const TextIcon = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={TextIconSvg} {...props} />
+);

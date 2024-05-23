@@ -5,6 +5,8 @@ import { Task } from "@/components/tasks/data/schema"
 import { getTasks } from "@/lib/appwrite/api"
 import React from "react"
 
+// import { Button } from "@/components/ui/button"
+
 // const fetchTasks = async () => { 
 //     try {
 //         const tasksData = await getTasks();
@@ -16,7 +18,10 @@ import React from "react"
 //                     title: task["Title"].trim(),
 //                     status: task["Status"].toLowerCase(),
 //                     label: task["Task-ID"].toString(), // You can modify this as needed
-//                     priority: task["Priority"].toLowerCase()
+//                     priority: task["Priority"].toLowerCase(),
+//                     dueDate: task["DueDate"] ? new Date(task["DueDate"]) : null, // Check if DueDate is not null before calling toDate()
+//                     // assigned: task["Assigned"].toString()
+//                     assigned: task["Assigned"] ? task["Assigned"].toString() : '' // Check if Assigned is not null before calling toString()
 //                 };
 //             });
 //             console.log(mappedTasks);
@@ -38,12 +43,15 @@ export default function TasksPage() {
                 if (tasksData) {
                     const mappedTasks = tasksData.map(task => {
                         return {
-                            id: task.$id, // Use document ID here
-                            taskId: task["Task-ID"].toString(), // Use task ID for consistency
+                            id: task.$id,
+                            taskId: task["Task-ID"].toString(),
                             title: task["Title"].trim(),
                             status: task["Status"].toLowerCase(),
-                            label: task["Task-ID"].toString(), // You can modify this as needed
-                            priority: task["Priority"].toLowerCase()
+                            label: task["Task-ID"].toString(),
+                            priority: task["Priority"].toLowerCase(),
+                            dueDate: task["DueDate"] ? new Date(task["DueDate"]) : undefined, // Use undefined if dueDate is null
+                            assigned: task["Assigned"] ? task["Assigned"].toString() : '' // Check if Assigned is not null before calling toString()
+
                         };
                     });
                     setData(mappedTasks);
@@ -60,12 +68,12 @@ export default function TasksPage() {
 
     return (
         <MainHeaderFrame>
-            <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
+            <div className="flex h-full flex-1 flex-col space-y-8 p-8 md:flex">
                 <div className="flex items-center justify-between space-y-2">
                     <div>
                         <h2 className="text-2xl font-bold tracking-tight">Welcome back!</h2>
                         <p className="text-muted-foreground">
-                            Here's a list of your tasks for this month!
+                            Here's a list of the tasks!
                         </p>
                         {/* <Button variant="ghost" size="icon" onClick={fetchTasks}>
                             Next

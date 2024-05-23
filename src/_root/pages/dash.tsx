@@ -13,7 +13,6 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { TimerIcon } from "lucide-react";
-import { Toggle } from "@/components/ui/toggle";
 
 
 export default function DashPage() {
@@ -62,9 +61,7 @@ export default function DashPage() {
                       </CardDescription>
                       <CardTitle className="text-4xl py-2 flex justify-between ">
                         <ElapsedTimeDisplay elapsedTime={timeElapsed} />
-                        <Toggle variant="outline" size="lg" aria-label="Toggle bold">
-                          <PunchInButton isPunchedIn={isPunchedIn} onPunchIn={togglePunchIn} />
-                        </Toggle >
+                        <PunchInButton isPunchedIn={isPunchedIn} onPunchIn={togglePunchIn} />
                       </CardTitle>
                     </CardHeader>
                   </Card>

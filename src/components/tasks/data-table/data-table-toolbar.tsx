@@ -28,8 +28,13 @@ import { DataTableViewOptions } from "./data-table-view-options"
 import { priorities, statuses } from "../data/data"
 import { DataTableFacetedFilter } from "./data-table-faceted-filter"
 import { Label } from "@/components/ui/label"
-import { addTask } from "@/lib/appwrite/api"
-import { useState } from "react"
+import { addTask, getEmpNamesData } from "@/lib/appwrite/api"
+import { useEffect, useState } from "react"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { CalendarIcon } from "lucide-react"
+import { Calendar } from "@/components/ui/calendar"
+
+import { format } from 'date-fns';
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
@@ -41,10 +46,28 @@ export function DataTableToolbar<TData>({
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
 
+  const [dueDate, setDueDate] = useState('');
+  
+  const [employeeNames, setEmployeeNames] = useState<string[]>([]);
+  const [selectedEmployee, setSelectedEmployee] = useState('');
+
   const [selectedStatus, setSelectedStatus] = useState<string>(''); // Provide a default value
   const [selectedPriority, setSelectedPriority] = useState<string>(''); // Provide a default value
+  
+  useEffect(() => {
+    const fetchEmployeeNames = async () => {
+      try {
+        const names = await getEmpNamesData();
+        if (names) {
+          setEmployeeNames(names.map(emp => emp.EmpName));
+        }
+      } catch (error) {
+        console.error('Error fetching employee names:', error);
+      }
+    };
 
-
+    fetchEmployeeNames();
+  }, []);
 
   const handleAddTask = async () => {
     const newTaskId = parseInt((document.getElementById('newTaskId') as HTMLInputElement)?.value, 10);
@@ -53,13 +76,14 @@ export function DataTableToolbar<TData>({
     // const [selectedStatus] = useState<string>(''); // Provide a default value
     // const [selectedPriority ] = useState<string>(''); // Provide a default value
 
-
     const taskData = {
         Title: title,
         Status: selectedStatus,
         Priority: selectedPriority,
         Description: '', // Assuming you want to set a default description
         'Task-ID': newTaskId,
+        DueDate: dueDate,
+        Assigned: selectedEmployee,
     };
   
     console.log(taskData);
@@ -144,7 +168,21 @@ export function DataTableToolbar<TData>({
                 </Label>
                 <Input id="title" placeholder="Type Title Here" className="col-span-3" />
               </div>
-
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="dueDate" className="text-right">Due Date</Label>
+                {/* <div className="py-1"/> */}
+                <Popover>
+                    <PopoverTrigger asChild>
+                        <Button variant="outline" className="col-span-3">
+                            <CalendarIcon className="h-5 w-5 mr-2" />
+                            {dueDate ? format(dueDate, "PPP") : "Pick a date"}
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent>
+                        <Calendar mode="single" selected={dueDate} onSelect={setDueDate} initialFocus />
+                    </PopoverContent>
+                </Popover>
+              </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label className="text-right">
                   Status
@@ -173,18 +211,36 @@ export function DataTableToolbar<TData>({
                   Priority
                 </Label>
                 <Select
-                value={selectedPriority}
-                onValueChange={(value) => setSelectedPriority(value)}
+                  value={selectedPriority}
+                  onValueChange={(value) => setSelectedPriority(value)}
+                  >
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Select Priority" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Low">Low</SelectItem>
+                    <SelectItem value="Medium">Medium</SelectItem>
+                    <SelectItem value="High">High</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label className="text-right">
+                  Assigned to
+                </Label>
+                <Select
+                  value={selectedEmployee}
+                  onValueChange={(value) => setSelectedEmployee(value)}
                 >
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Select Priority" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Low">Low</SelectItem>
-                  <SelectItem value="Medium">Medium</SelectItem>
-                  <SelectItem value="High">High</SelectItem>
-                </SelectContent>
-              </Select>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Select Employee" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {employeeNames.map((name, index) => (
+                      <SelectItem key={index} value={name}>{name}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
             <SheetFooter>
