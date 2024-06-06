@@ -21,7 +21,7 @@ import EmpDetailsPage from './_root/pages/emp/emp-details';
 import PayrollPage from './_root/pages/payroll/payroll';
 import AssetMGMTPage from './_root/pages/assets-mgmt/assets';
 import AssetRegisterPage from './_root/pages/assets-mgmt/assets-register';
-import FileMGMTPage from './_root/pages/file-storage/file-mgmt';
+import FileStoragePage from './_root/pages/file-storage/file-storage';
 
 
 const App = () => {
@@ -53,7 +53,7 @@ const App = () => {
             <Route path="register" element={<AssetRegisterPage />} /> 
           </Route>
 
-          <Route path="/files" element={<FileMGMTPage />} />
+          <Route path="/files" element={<FileStoragePage />} />
         
         </Route>
 

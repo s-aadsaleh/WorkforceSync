@@ -6,9 +6,6 @@ import { Employee } from '@/components/emp-components/emp-data/schema';
 
 import { getEmpData } from '@/lib/appwrite/api';
 
-
-
-
 export default function EmpDirectoryPage() {
 
     const [data, setData] = React.useState<Employee[]>([]);

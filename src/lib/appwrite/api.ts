@@ -1,4 +1,4 @@
-import { ID, Query,  } from 'appwrite';
+import { ID, Query } from 'appwrite';
 
 import { INewUser } from "../../types/index";
 import { account, appwriteConfig, avatars, databases, storage} from './config';
@@ -7,7 +7,6 @@ import { toast } from 'sonner';
 
 
 // ================================================================= AUTHENTICATION =================================================================
-  // ============================== SIGN UP
   export async function createUserAccount(user: INewUser) {
       try {
         const newAccount = await account.create(
@@ -116,7 +115,6 @@ import { toast } from 'sonner';
   
 
 // ================================================================= KANBAN =================================================================
-// ============================== GET TASKS
 
   export async function getTasks() {
     try {
@@ -141,7 +139,7 @@ import { toast } from 'sonner';
     'Description': string;
     'DueDate': string;
     "Assigned": string;
-}
+  }
 
 export async function addTask(taskData: TaskData) {
     try {
@@ -149,7 +147,7 @@ export async function addTask(taskData: TaskData) {
             appwriteConfig.databaseId,
             appwriteConfig.taskCollectionId,
             ID.unique(),
-            taskData // Provide the task data to be added
+            taskData
         );
 
         console.log('Task added successfully:', response);
@@ -163,6 +161,7 @@ export async function addTask(taskData: TaskData) {
 export async function deleteTask(taskId: string) {
   try {
       // Delete the document using its ID
+      console.log(taskId);
       const deleteResponse = await databases.deleteDocument(
           appwriteConfig.databaseId,
           appwriteConfig.taskCollectionId,
@@ -209,26 +208,8 @@ export async function updateTaskStatus(taskId: string, updatedStatus: { 'Status'
       console.error('Error updating task status:', error);
       return null;
   }
-}
-
-  export async function getStages() {
-    try {
-      // Fetch task stages from Appwrite database
-      const currentStages = await databases.listDocuments(
-        appwriteConfig.databaseId,
-        appwriteConfig.stagesCollectionId,
-        [
-          Query.select(['id','title', '$createdAt'])
-        
-        ]
-      );
-      return currentStages.documents;
-    } catch (error) {
-      console.error('Error fetching task stages:', error);
-      return null;
-    }
-  }
-
+}  
+  
 // ================================================================= EMPLOYEES DIRECTORY =================================================================
 
 export async function getEmpData() {
@@ -254,7 +235,7 @@ export async function getEmpNamesData() {
       [Query.select([ 'EmpName'])]
     );
 
-    console.log(currentEmps.documents);
+    // console.log(currentEmps.documents);
     return currentEmps.documents;
   } catch (error) {
     console.error('Error fetching employees:', error);
@@ -306,33 +287,6 @@ export async function getEmpDetailedData(empID: string) {
   }
 }
 
-
-// interface EmpData {
-//   'EmpID': string;
-//   'EmpName': string;
-//   'JoinDate': Date;
-//   'Status': string;
-//   'EmpPNumber': number;
-//   'EmpEmail': string;
-// }
-
-// export async function addEmp(empData: EmpData) {
-//   try {
-//       const response = await databases.createDocument(
-//           appwriteConfig.databaseId,
-//           appwriteConfig.employeesCollectionId,
-//           ID.unique(),
-//           empData // Provide the task data to be added
-//       );
-
-//       console.log('Employee added successfully:', response);
-//       return response;
-//   } catch (error) {
-//       console.error('Error adding employee:', error);
-//       return null;
-//   }
-// }
-
 interface EmpData {
   'EmpID': string;
   'EmpName': string;
@@ -351,58 +305,12 @@ interface EmpData {
   'Resume'?: string;
 }
 
-
 export interface FileData {
   PAN: File | null;
   Aadhar: File | null;
   Photo: File | null;
   Resume: File | null;
 }
-
-
-
-// export async function addEmployee(empData: EmpData, fileData: FileData): Promise<any> {
-//   try {
-//     // Upload files and get their IDs
-//     const panResponse = fileData.PAN ? await uploadEmpFile(fileData.PAN) : null;
-//     const aadharResponse = fileData.Aadhar ? await uploadEmpFile(fileData.Aadhar) : null;
-//     const photoResponse = fileData.Photo ? await uploadEmpFile(fileData.Photo) : null;
-//     const resumeResponse = fileData.Resume ? await uploadEmpFile(fileData.Resume) : null;
-
-//     // Extract IDs from responses
-//     const panId = panResponse?.$id || '';
-//     const aadharId = aadharResponse?.$id || '';
-//     const photoId = photoResponse?.$id || '';
-//     const resumeId = resumeResponse?.$id || '';
-
-//     console.log('Pan ID:', panId);
-//     console.log('Aadhar ID:', aadharId);
-//     console.log('Photo ID:', photoId);
-//     console.log('Resume ID:', resumeId);
-
-
-//     // Assign file IDs to empData
-//     empData.PAN = panId;
-//     empData.Aadhar = aadharId;
-//     empData.Photo = photoId;
-//     empData.Resume = resumeId;
-
-
-//     // Create employee document in the database
-//     const response = await databases.createDocument(
-//       appwriteConfig.databaseId,
-//       appwriteConfig.employeesCollectionId,
-//       ID.unique(),
-//       empData // Use empData that now includes file IDs
-//     );
-
-//     console.log('Employee added successfully:', response);
-//     return response;
-//   } catch (error) {
-//     console.error('Error adding employee:', error);
-//     return null;
-//   }
-// }
 
 export async function addEmployee(empData: EmpData, fileData: FileData): Promise<any> {
   try {
@@ -440,6 +348,36 @@ export async function addEmployee(empData: EmpData, fileData: FileData): Promise
 }
 
 
+export async function uploadEmpFile(file: File): Promise<string | null> {
+  try {
+    const response = await storage.createFile(
+      appwriteConfig.storageId, 
+      ID.unique(), 
+      file,
+    );
+    const fileId = response?.$id || null; // Extract only the $id property
+    console.log('File uploaded successfully. ID:', fileId);
+    return fileId;
+  } catch (error) {
+    console.error('Error uploading file:', error);
+    return null;
+  }
+}
+
+export const downloadEmpFile = async (fileId: string) => {
+  try {
+    const response = storage.getFileView(appwriteConfig.storageId, fileId);
+    if (response) {
+      return response; // Return the URL instead of opening it in a new tab
+    } else {
+      console.error('Failed to get download URL');
+      return null;
+    }
+  } catch (error) {
+    console.error('Error downloading file:', error);
+    throw error;
+  }
+};
 
 export async function deleteEmp(empId: string) {
   try {
@@ -458,34 +396,227 @@ export async function deleteEmp(empId: string) {
   }
 }
 
-export async function uploadEmpFile(file: File): Promise<string | null> {
+// ================================================================= ASSETS DIRECTORY =================================================================
+export async function getAssetsData() {
   try {
-    const response = await storage.createFile(
-      appwriteConfig.storageId, 
-      ID.unique(), 
-      file,
+    const currentAssets = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.assetsCollectionId,
+      [Query.select([ '$id', 'AssetsID', 'AssetsName', 'AssetsStatus', 'AssetsType', 'AssetsRemarks', 'AssetsValue', 'AllocatedTo'])]
     );
-    const fileId = response?.$id || null; // Extract only the $id property
-    console.log('File uploaded successfully. ID:', fileId);
-    return fileId;
+
+    console.log(currentAssets.documents);
+    return currentAssets.documents;
   } catch (error) {
-    console.error('Error uploading file:', error);
+    console.error('Error fetching assets:', error);
     return null;
   }
 }
 
+interface AssetData {
+  'AssetsID': string; 
+  'AssetsName': string;
+  'AssetsStatus': string;
+  'AssetsType': string;
+  'AssetsValue': string;
+  'AllocatedTo': string;
+}
 
-export const downloadEmpFile = async (fileId: string) => {
+export async function addAsset(assetData: AssetData) {
   try {
-    const response = storage.getFileView(appwriteConfig.storageId, fileId);
-    if (response) {
-      return response; // Return the URL instead of opening it in a new tab
-    } else {
-      console.error('Failed to get download URL');
-      return null;
-    }
+      const response = await databases.createDocument(
+          appwriteConfig.databaseId,
+          appwriteConfig.assetsCollectionId,
+          ID.unique(),
+          assetData
+      );
+
+      console.log('Asset added successfully:', response);
+      return response;
   } catch (error) {
-    console.error('Error downloading file:', error);
-    throw error;
+      console.error('Error adding asset:', error);
+      return null;
   }
-};
+}
+
+export async function deleteAsset(assetId: string) {
+  try {
+      // Delete the document using its ID
+      const deleteResponse = await databases.deleteDocument(
+          appwriteConfig.databaseId,
+          appwriteConfig.assetsCollectionId,
+          assetId // Provide the document ID of the task to be deleted
+      );
+
+      console.log('Asset deleted successfully:', deleteResponse);
+      return deleteResponse;
+  } catch (error) {
+      console.error('Error deleting asset:', error);
+      return null;
+  }
+}
+// Define the type for updated data
+interface UpdatedAssetData {
+  AssetsStatus: string;
+  AssetsRemarks?: string;
+  AssetsValue?: string;
+}
+
+// Update the function with proper type annotations
+export async function updateAssetData(assetId: string, updatedData: UpdatedAssetData) {
+  console.log('Updating asset with ID:', assetId); // Add this line
+  console.log('Updated data:', updatedData); // Add this line
+  try {
+    const response = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.assetsCollectionId,
+      assetId, // Dynamic asset ID
+      updatedData
+    );
+
+    console.log('Asset data updated successfully:', response);
+    return response;
+  } catch (error) {
+    console.error('Error updating asset data:', error);
+    return null;
+  }
+}
+
+// ================================================================= FILE STORAGE =================================================================
+
+// export interface CloudStorageData {
+//   // Define properties for files in your cloud storage system
+//   // For example:
+//   File1: File | null;
+//   File2: File | null;
+//   // Add more properties as needed
+// }
+
+
+
+export async function uploadToCloudStorageDB(file: File, fileName: string): Promise<string | null> {
+  try {
+    // Upload the file to your cloud storage system
+    const response = await storage.createFile(
+      appwriteConfig.fileStorageId, 
+      ID.unique(), 
+      file,
+    );
+
+    const fileId = response?.$id || null; // Extract only the $id property
+
+    // Update the file name in the cloud storage system
+    if (fileId !== null) {
+      await storage.updateFile(
+        appwriteConfig.fileStorageId, 
+        fileId, 
+        fileName
+      );
+    }
+
+    console.log('File uploaded and name updated successfully:', fileId);
+    return fileId;
+  } catch (error) {
+    console.error('Error uploading file and updating name:', error);
+    return null;
+  }
+}
+
+export async function listFilesInCloud(): Promise<Array<{ $id: string; name: string }> | null> {
+  try {
+    const response = await storage.listFiles(appwriteConfig.fileStorageId);
+    const files = response.files.map(({ $id, name }) => ({ $id, name }));
+    console.log('Files in the bucket:', files);
+    return files;
+  } catch (error) {
+    console.error('Error listing files in the bucket:', error);
+    return null;
+  }
+}
+
+  export async function handleCloudDelete(fileId: string) {
+    try {
+      await storage.deleteFile(appwriteConfig.fileStorageId, fileId);
+      console.log('File deleted successfully.');
+    } catch (error) {
+      console.error('Error deleting file:', error);
+    }
+  }
+
+  export async function downloadFileFromCloud(fileId: string) {
+    try {
+      // Fetch the file data
+      const response = await fetch(`https://cloud.appwrite.io/v1/storage/files/${fileId}/view?project=workforcesync&mode=admin`);
+  
+      // Check if the response is successful
+      if (!response.ok) {
+        throw new Error('Failed to download file');
+      }
+  
+      // Extract the file name from the response headers
+      const disposition = response.headers.get('Content-Disposition');
+      const fileNameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+      const matches = fileNameRegex.exec(disposition || '');
+      const fileName = (matches && matches[1]) || 'download';
+  
+      // Convert the response to a blob
+      const blob = await response.blob();
+  
+      // Create a temporary URL for the blob
+      const url = window.URL.createObjectURL(blob);
+  
+      // Create a temporary anchor element to trigger the download
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+  
+      // Programmatically trigger the download
+      document.body.appendChild(a);
+      a.click();
+  
+      // Clean up
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+  
+      console.log('File downloaded successfully.');
+    } catch (error) {
+      console.error('Error downloading file:', error);
+    }
+  }
+  
+  export async function renameFileInCloud(fileId: string, newName: string): Promise<void> {
+    try {
+      // Update the file name in the cloud storage system
+      await storage.updateFile(
+        appwriteConfig.fileStorageId, 
+        fileId, 
+        newName
+      );
+      console.log('File name updated successfully:', fileId);
+    } catch (error) {
+      console.error('Error updating file name:', error);
+      throw new Error('Error updating file name');
+    }
+  }
+
+  export async function getPreviewInCloud() {
+    try {
+      // Update the file name in the cloud storage system
+      // await storage.getFilePreview(
+      //   appwriteConfig.fileStorageId, 
+      //   fileId, 
+      // );
+
+      const result = storage.getFilePreview(
+        appwriteConfig.fileStorageId, // bucketId
+        '66593c41a16e8ac4413a', // fileId
+
+    );
+    
+    console.log(result);
+    } catch (error) {
+      console.error('Error updating file name:', error);
+      throw new Error('Error updating file name');
+    }
+  }
+

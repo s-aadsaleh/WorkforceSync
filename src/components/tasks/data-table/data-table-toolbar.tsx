@@ -49,8 +49,8 @@ export function DataTableToolbar<TData>({
   const [employeeNames, setEmployeeNames] = useState<string[]>([]);
   const [selectedEmployee, setSelectedEmployee] = useState('');
 
-  const [selectedStatus, setSelectedStatus] = useState<string>(''); // Provide a default value
-  const [selectedPriority, setSelectedPriority] = useState<string>(''); // Provide a default value
+  const [selectedStatus, setSelectedStatus] = useState<string>('');
+  const [selectedPriority, setSelectedPriority] = useState<string>('');
   
   useEffect(() => {
     const fetchEmployeeNames = async () => {
@@ -102,6 +102,10 @@ export function DataTableToolbar<TData>({
     }
   };
 
+  //For Date Picker
+  const today = new Date();
+  const dueDateforTasks  = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
+  
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
@@ -173,7 +177,15 @@ export function DataTableToolbar<TData>({
                         </Button>
                     </PopoverTrigger>
                     <PopoverContent>
-                        <Calendar mode="single" selected={dueDate} onSelect={setDueDate} initialFocus />
+                        {/* <Calendar mode="single" selected={dueDate} onSelect={setDueDate} initialFocus /> */}
+                        <Calendar
+                          mode="single"
+                          captionLayout="dropdown-buttons"
+                          selected={dueDate}
+                          onSelect={setDueDate}
+                          fromMonth={dueDateforTasks}
+                          disabled={(date) => date < dueDateforTasks}
+                        />
                     </PopoverContent>
                 </Popover>
               </div>

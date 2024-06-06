@@ -1,32 +1,32 @@
 import MainHeaderFrame from '@/components/main-header-frame';
 import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
+import { Calendar } from '@/components/ui/caaalendar';
+// import { Calendar } from '@/components/ui/calendar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
+
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { addEmployee } from '@/lib/appwrite/api'; // Import the updated addEmployee function
 
 import { format } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
+import {  CalendarIcon } from 'lucide-react';
 import { useState } from 'react';
 import { Toaster, toast } from 'sonner';
+
+
 
 const EmpAddPage = () => {
     const [empId, setEmpId] = useState('');
     const [empName, setEmpName] = useState('');
-    const [joinDate, setJoinDate] = useState<Date | undefined>(undefined);
+    const [joinDate, setJoinDate] = useState<Date | undefined>(undefined); // Ensure joinDate is of type Date
+
     const [status, setStatus] = useState('');
     const [empPNumber, setEmpPNumber] = useState('');
     const [empEmail, setEmpEmail] = useState('');
+    // const [dob, setDob] = useState('');
     const [dob, setDob] = useState<Date | undefined>(undefined);
     const [position, setPosition] = useState('');
     const [education, setEducation] = useState('');
@@ -36,21 +36,23 @@ const EmpAddPage = () => {
     const [aadharFile, setAadharFile] = useState<File | null>(null);
     const [photoFile, setPhotoFile] = useState<File | null>(null);
     const [resumeFile, setResumeFile] = useState<File | null>(null);
+    // const [miscFile, setMiscFile] = useState<File | null>(null);
+
+    //For Date Picker
+    const today = new Date();
+    const eighteenYearsAgo  = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate() - 2);
+
 
     const handleSubmit = async () => {
-        if (!joinDate || !dob) {
-            toast("Join Date and Date of Birth are required.");
-            return;
-        }
-
         const empData = {
             'EmpID': empId,
             'EmpName': empName,
-            'JoinDate': joinDate,
+            'JoinDate': joinDate ? new Date(joinDate) : new Date(), // Ensure joinDate is always a Date type
             'Status': status,
             'EmpPNumber': empPNumber,
             'EmpEmail': empEmail,
-            'DOB': dob,
+            // 'DOB': new Date(dob),
+            'DOB': dob ? new Date(dob) : new Date(),
             'CurrentPosition': position,
             'Education': education,
             'Address': address,
@@ -62,13 +64,14 @@ const EmpAddPage = () => {
             'Aadhar': aadharFile,
             'Photo': photoFile,
             'Resume': resumeFile,
+            // 'Misc': miscFile,
         };
 
-        const result = await addEmployee(empData, fileData);
-
-        if (result) {
+        try {
+            await addEmployee(empData, fileData);
+            console.log(empData);
             console.log('Employee added successfully');
-            toast("Employee added successfully"); // Display the success toast message
+            toast("Employee added successfully."); // Display the success toast message
             // Reset form fields
             setEmpId('');
             setEmpName('');
@@ -85,8 +88,8 @@ const EmpAddPage = () => {
             setAadharFile(null);
             setPhotoFile(null);
             setResumeFile(null);
-        } else {
-            const error = new Error('Employee not added successfully');
+            // setMiscFile(null);
+        } catch (error) {
             console.error('Error adding employee:', error);
             toast("Uh oh! Something went wrong. Employee not added.");
         }
@@ -129,7 +132,15 @@ const EmpAddPage = () => {
                                                     </Button>
                                                 </PopoverTrigger>
                                                 <PopoverContent>
-                                                    <Calendar mode="single" selected={joinDate} onSelect={setJoinDate} initialFocus />
+                                                    {/* <Calendar mode="single" selected={joinDate} onSelect={setJoinDate} initialFocus /> */}
+                                                    <Calendar
+                                                        mode="single"
+                                                        captionLayout="dropdown-buttons"
+                                                        selected={joinDate}
+                                                        onSelect={setJoinDate}
+                                                        fromYear={1960}
+                                                        toYear={2030}
+                                                        />
                                                 </PopoverContent>
                                             </Popover>
                                         </div>
@@ -144,7 +155,17 @@ const EmpAddPage = () => {
                                                     </Button>
                                                 </PopoverTrigger>
                                                 <PopoverContent>
-                                                    <Calendar mode="single" selected={dob} onSelect={setDob} initialFocus />
+                                                    {/* <Calendar mode="single" selected={dob} onSelect={setDob} initialFocus /> */}
+                                                    <Calendar
+                                                        mode="single"
+                                                        captionLayout="dropdown-buttons"
+                                                        selected={dob}
+                                                        onSelect={setDob}
+                                                        fromYear={1940}
+                                                        toMonth={eighteenYearsAgo}
+                                                        disabled={(date) => date > new Date() || date > eighteenYearsAgo}
+                                                        initialFocus
+                                                        />
                                                 </PopoverContent>
                                             </Popover>
                                         </div>
@@ -158,6 +179,11 @@ const EmpAddPage = () => {
                                             <div className="py-1"/>
                                             <Input id="empEmail" type="email" value={empEmail} onChange={(e) => setEmpEmail(e.target.value)} />
                                         </div>
+                                        {/* <div>
+                                            <Label htmlFor="status">Status</Label>
+                                            <div className="py-1"/>
+                                            <Input id="status" type="text" value={status} onChange={(e) => setStatus(e.target.value)} />
+                                        </div> */}
                                         <div>
                                             <Label>Status</Label>
                                             <div className="py-1"/>
@@ -201,49 +227,53 @@ const EmpAddPage = () => {
                                 </CardContent>
                             </Card>
                         </div>
+                        <div className="w-8"></div>
+                        <div className="flex-grow max-w-md">
+                            {/* Card for File Uploads */}
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Add Files</CardTitle>
+                                    <CardDescription>Upload employee documents</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="grid grid-cols-1 gap-7 px-2">
+                                        <div>
+                                            <Label htmlFor="pan">PAN</Label>
+                                            <div className="py-1"/>
+                                            <Input id="pan" type="file" onChange={(e) => setPanFile(e.target.files?.[0] || null)} />
+                                        </div>
+                                        <div>
+                                            <Label htmlFor="aadhar">Aadhar</Label>
+                                            <div className="py-1"/>
+                                            <Input id="aadhar" type="file" onChange={(e) => setAadharFile(e.target.files?.[0] || null)} />
+                                        </div>
+                                        <div>
+                                            <Label htmlFor="photo">Photo</Label>
+                                            <div className="py-1"/>
+                                            <Input id="photo" type="file" onChange={(e) => setPhotoFile(e.target.files?.[0] || null)} />
+                                        </div>
+                                        <div>
+                                            <Label htmlFor="resume">Resume</Label>
+                                            <div className="py-1"/>
+                                            <Input id="resume" type="file" onChange={(e) => setResumeFile(e.target.files?.[0] || null)} />
+                                        </div>
+                                    </div>
+
+
+                                <div className="flex justify-center pt-10">
+                                    <Button onClick={handleSubmit} size="sm" className="w-3/4" >Add Employee</Button>
+                                </div>
+
+                                </CardContent>
+                            </Card>
+                        </div>
                         <div className="w-1/4"></div> {/* Spacer */}
                     </div>
-                    <div className="flex justify-center mt-8">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Upload Files</CardTitle>
-                                <CardDescription>Upload the necessary documents</CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="grid grid-cols-1 gap-4">
-                                    <div>
-                                        <Label htmlFor="panFile">PAN Card</Label>
-                                        <div className="py-1"/>
-                                        <Input id="panFile" type="file" onChange={(e) => setPanFile(e.target.files ? e.target.files[0] : null)} />
-                                    </div>
-                                    <div>
-                                        <Label htmlFor="aadharFile">Aadhar Card</Label>
-                                        <div className="py-1"/>
-                                        <Input id="aadharFile" type="file" onChange={(e) => setAadharFile(e.target.files ? e.target.files[0] : null)} />
-                                    </div>
-                                    <div>
-                                        <Label htmlFor="photoFile">Photo</Label>
-                                        <div className="py-1"/>
-                                        <Input id="photoFile" type="file" onChange={(e) => setPhotoFile(e.target.files ? e.target.files[0] : null)} />
-                                    </div>
-                                    <div>
-                                        <Label htmlFor="resumeFile">Resume</Label>
-                                        <div className="py-1"/>
-                                        <Input id="resumeFile" type="file" onChange={(e) => setResumeFile(e.target.files ? e.target.files[0] : null)} />
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </div>
-                    <div className="w-1/4"></div> {/* Spacer */}
                 </div>
-                <div className="flex justify-center mt-8">
-                    <Button onClick={handleSubmit}>Submit</Button>
-                </div>
-                <Toaster /> {/* Add the Toaster component to render the toast messages */}
             </div>
+            <Toaster />
         </MainHeaderFrame>
     );
-};
+}
 
 export default EmpAddPage;

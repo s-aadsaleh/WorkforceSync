@@ -13,7 +13,7 @@ import {
   UserPlus,
   BookUser,
   MonitorSmartphone,
-  MonitorCheck,
+  // MonitorCheck,
   FileStack,
 } from "lucide-react"
 import {
@@ -39,6 +39,7 @@ import React from 'react';
 
 import DarkModeToggle from "@/components/theme-toggle"
 import { signOutAccount } from "@/lib/appwrite/api"
+// import { CardDescription } from "./ui/card"
 
 interface MainHeaderFrameProps {
   children: ReactNode;
@@ -86,6 +87,7 @@ const MainHeaderFrame = ({ children }: MainHeaderFrameProps) => {
           </div>
           <div className="flex-1">
             <nav className="grid items-start px-2 py-3 text-sm font-medium lg:px-4">
+              <div className="py-2"/>
               <Link
                 to="/dashboard"
                 className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
@@ -164,7 +166,7 @@ const MainHeaderFrame = ({ children }: MainHeaderFrameProps) => {
                 <MonitorSmartphone className="h-5 w-5" />
                 <span style={{ fontSize: "medium" }}>Asset Management</span>
               </Link>
-              {pathname.startsWith("/assets") && (
+              {/* {pathname.startsWith("/assets") && (
                   <div className="ml-6 py-1">
                     <Link
                       to="/assets/register"
@@ -176,7 +178,7 @@ const MainHeaderFrame = ({ children }: MainHeaderFrameProps) => {
                       Register Assets
                     </Link>
                   </div>
-                )}
+                )} */}
               <Link
                 to="/files"
                 className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
@@ -197,11 +199,14 @@ const MainHeaderFrame = ({ children }: MainHeaderFrameProps) => {
               </Link>
             </nav>
           </div>
-          <div className="mt-auto p-4">
-            <Button variant="ghost" size="icon" onClick={DarkModeToggle()}>
-              <SunMoon className="h-5 w-5" />
-            </Button>
-          </div>
+          {/* <CardDescription className="flex px-3 py-0">
+              built by saad.
+          </CardDescription>
+          <CardDescription className="flex px-3 py-2">
+            <a href="https://github.com/s-aadsaleh/WorkforceSync" target="_blank" rel="noopener noreferrer">
+              the source is available on <span className="underline">github</span>.
+            </a>
+          </CardDescription> */}
         </div>
       </div>
       <div>
@@ -226,7 +231,7 @@ const MainHeaderFrame = ({ children }: MainHeaderFrameProps) => {
                   <Waypoints className="h-6 w-6" />
                   <span>WorkforceSync</span>
                 </Link>
-                <Link
+                {/* <Link
                   to="/dashboard"
                   className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
                     pathname === "/dashboard" ? "bg-muted text-primary" : "text-muted-foreground"
@@ -270,13 +275,118 @@ const MainHeaderFrame = ({ children }: MainHeaderFrameProps) => {
                 >
                   <Settings2 className="h-5 w-5" />
                   Settings
+                </Link> */}
+                <Link
+                to="/dashboard"
+                className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
+                  pathname === "/dashboard" ? "bg-muted text-primary" : "text-muted-foreground"
+                } transition-all hover:text-primary`}
+              >
+                <Home className="h-5 w-5" />
+                Dashboard
+              </Link>
+              <Link
+                to="/tasks"
+                className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
+                  pathname === "/tasks" ? "bg-muted text-primary" : "text-muted-foreground"
+                } transition-all hover:text-primary`}
+              >
+                <Clipboard className="h-5 w-5" />
+                Tasks
+              </Link>
+              <div>
+                <Link
+                  to="/employees"
+                  className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
+                    pathname.startsWith("/employees") ? "bg-muted text-primary" : "text-muted-foreground"
+                  } transition-all hover:text-primary`}
+                >
+                  <Users className="h-5 w-5" />
+                  Employees
                 </Link>
-              </nav>
-              <div className="mt-auto p-4">
-                <Button variant="ghost" size="icon" onClick={DarkModeToggle()}>
-                  <SunMoon className="h-5 w-5" />
-                </Button>
+                {pathname.startsWith("/employees") && (
+                  <div className="ml-6 py-1">
+                    <Link
+                      to="/employees/directory"
+                      className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
+                        pathname === "/employees/directory" ? "bg-muted text-primary" : "text-muted-foreground"
+                      } transition-all hover:text-primary`}
+                    >
+                      <BookUser className="h-5 w-5" />
+                      Employee Directory
+                    </Link>
+                    <Link
+                      to="/employees/directory/details"
+                      className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
+                        pathname === "/employees/directory/details" ? "bg-muted text-primary" : "text-muted-foreground"
+                      } transition-all hover:text-primary`}
+                    >
+                      <ListCollapse className="h-5 w-5" />
+                      Employee Details
+                    </Link>
+                    <Link
+                      to="/employees/directory/add"
+                      className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
+                        pathname === "/employees/directory/add" ? "bg-muted text-primary" : "text-muted-foreground"
+                      } transition-all hover:text-primary`}
+                    >
+                      <UserPlus className="h-5 w-5" />
+                      Add Employees
+                    </Link>
+                  </div>
+                )}
               </div>
+              <Link
+                to="/payroll"
+                className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
+                  pathname.startsWith("/payroll") ? "bg-muted text-primary" : "text-muted-foreground"
+                } transition-all hover:text-primary`}
+              >
+                <HandCoins className="h-5 w-5" />
+                Payroll
+              </Link>
+              <Link
+                to="/assets"
+                className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
+                  pathname.startsWith("/assets") ? "bg-muted text-primary" : "text-muted-foreground"
+                } transition-all hover:text-primary`}
+              >
+                <MonitorSmartphone className="h-5 w-5" />
+                Asset Management
+              </Link>
+              {/* {pathname.startsWith("/assets") && (
+                  <div className="ml-6 py-1">
+                    <Link
+                      to="/assets/register"
+                      className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
+                        pathname === "/assets/register" ? "bg-muted text-primary" : "text-muted-foreground"
+                      } transition-all hover:text-primary`}
+                    >
+                      <MonitorCheck className="h-5 w-5" />
+                      Register Assets
+                    </Link>
+                  </div>
+                )} */}
+              <Link
+                to="/files"
+                className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
+                  pathname === "/files" ? "bg-muted text-primary" : "text-muted-foreground"
+                } transition-all hover:text-primary`}
+              >
+                <FileStack className="h-5 w-5" />
+                File Storage
+              </Link>
+              <Link
+                to="/settings"
+                className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
+                  pathname === "/settings" ? "bg-muted text-primary" : "text-muted-foreground"
+                } transition-all hover:text-primary`}
+              >
+                <Settings2 className="h-5 w-5" />
+                Settings
+              </Link>
+              </nav>
+
             </SheetContent>
           </Sheet>
           <Breadcrumb className="hidden md:flex">
@@ -288,12 +398,17 @@ const MainHeaderFrame = ({ children }: MainHeaderFrameProps) => {
                       <Link to={`/${pathSegments.slice(0, index + 1).join('/')}`}>{capitalizeFirstLetter(segment)}</Link>
                     </BreadcrumbLink>
                   </BreadcrumbItem>
-                  {index < pathSegments.length - 1 && <BreadcrumbSeparator />} {/* Add separator for all segments except the last one */}
+                  {index < pathSegments.length - 1 && <BreadcrumbSeparator />}
                 </React.Fragment>
               ))}
             </BreadcrumbList>
           </Breadcrumb>
           <div className="w-full flex-1">
+          </div>
+          <div >
+            <Button variant="ghost" size="icon" onClick={DarkModeToggle()}>
+              <SunMoon className="h-5 w-5" />
+            </Button>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

@@ -6,6 +6,7 @@ import { usePunchIn } from '../../components/punch-in';
 import PunchInButton from '../../components/punch-in-button';
 import ElapsedTimeDisplay from '../../components/elapsed-time';
 
+
 import {
   Card,
   CardDescription,
@@ -17,6 +18,7 @@ import { TimerIcon } from "lucide-react";
 
 export default function DashPage() {
     
+
   //Navigation 
     const navigate = useNavigate();
     useEffect(() => {
@@ -65,6 +67,17 @@ export default function DashPage() {
                       </CardTitle>
                     </CardHeader>
                   </Card>
+                  <Card className="flex flex-col">
+                    <CardHeader className="pb-2 flex  justify-between">
+                      <CardDescription className="flex gap-3">
+                        <TimerIcon /> {isPunchedIn ? 'Working' : 'On Break'}
+                      </CardDescription>
+                      <CardTitle className="text-4xl py-2 flex justify-between ">
+                        <ElapsedTimeDisplay elapsedTime={timeElapsed} />
+                        <PunchInButton isPunchedIn={isPunchedIn} onPunchIn={togglePunchIn} />
+                      </CardTitle>
+                    </CardHeader>
+                  </Card>
                 </div>
               </div>
             </div>
@@ -74,3 +87,4 @@ export default function DashPage() {
         </MainHeaderFrame>
     )
   }
+
