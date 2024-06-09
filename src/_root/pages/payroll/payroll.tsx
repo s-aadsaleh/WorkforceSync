@@ -357,7 +357,7 @@ const PayrollPage = () => {
                       <Accordion type="single" collapsible>
                         <AccordionItem value="item-1">
                           <AccordionTrigger>
-                            Cost to Company (CTC) Per Annum: ₹{empDetails.NetPay.replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}
+                            Cost to Company (CTC) Per Annum: ₹{empDetails.NetPay}
                           </AccordionTrigger>
                           <AccordionContent>
                             {processedPayroll ? (
@@ -365,14 +365,14 @@ const PayrollPage = () => {
                                 <Accordion type="single" collapsible>
                                   <AccordionItem value="item-1">
                                     <AccordionTrigger>
-                                      Gross Monthly Salary: ₹{processedPayroll.grossSalary.toFixed(2).replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}
+                                      Gross Monthly Salary: ₹{processedPayroll.grossSalary}
                                     </AccordionTrigger>
                                     <AccordionContent>
                                       <p>Gross Monthly Salary is the total salary before any deductions.</p>
                                       <Accordion type="single" collapsible>
                                         <AccordionItem value="item-1a">
                                           <AccordionTrigger>
-                                            Basic Salary: ₹{processedPayroll.basicSalary.toFixed(2).replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}
+                                            Basic Salary: ₹{processedPayroll.basicSalary.toFixed(2)}
                                           </AccordionTrigger>
                                           <AccordionContent>
                                             <p>Basic Salary is the primary component of an employee's salary.</p>
@@ -380,7 +380,7 @@ const PayrollPage = () => {
                                         </AccordionItem>
                                         <AccordionItem value="item-1b">
                                           <AccordionTrigger>
-                                            HRA: ₹{processedPayroll.hra.toFixed(2).replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}
+                                            HRA: ₹{processedPayroll.hra.toFixed(2)}
                                           </AccordionTrigger>
                                           <AccordionContent>
                                             <p>HRA (House Rent Allowance) is a component of salary that helps employees cover housing expenses.</p>
@@ -391,14 +391,14 @@ const PayrollPage = () => {
                                   </AccordionItem>
                                   <AccordionItem value="item-2">
                                     <AccordionTrigger>
-                                      Total Monthly Deductions: ₹{processedPayroll.totalDeductions.toFixed(2).replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}
+                                      Total Monthly Deductions: ₹{processedPayroll.totalDeductions.toFixed(2)}
                                     </AccordionTrigger>
                                     <AccordionContent>
                                       <p>Total Monthly Deductions is the sum of all deductions from the employee's salary.</p>
                                       <Accordion type="single" collapsible>
                                         <AccordionItem value="item-2a">
                                           <AccordionTrigger>
-                                            EPF: ₹{processedPayroll.epf.toFixed(2).replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}
+                                            EPF: ₹{processedPayroll.epf.toFixed(2)}
                                           </AccordionTrigger>
                                           <AccordionContent>
                                             <p>EPF (Employee Provident Fund) is a retirement savings scheme for employees.</p>
@@ -406,7 +406,7 @@ const PayrollPage = () => {
                                         </AccordionItem>
                                         <AccordionItem value="item-2b">
                                           <AccordionTrigger>
-                                            Professional Tax: ₹{processedPayroll.professionalTax.toFixed(2).replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}
+                                            Professional Tax: ₹{processedPayroll.professionalTax.toFixed(2)}
                                           </AccordionTrigger>
                                           <AccordionContent>
                                             <p>Professional Tax is a tax levied on individuals earning a certain level of income. ₹2500/yr.</p>
@@ -414,7 +414,7 @@ const PayrollPage = () => {
                                         </AccordionItem>
                                         <AccordionItem value="item-2c">
                                           <AccordionTrigger>
-                                            Income Tax: ₹{processedPayroll.incomeTax.toFixed(2).replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}
+                                            Income Tax: ₹{processedPayroll.incomeTax.toFixed(2)}
                                           </AccordionTrigger>
                                           <AccordionContent>
                                             <p>Income Tax is a tax levied on an individual's income by the government.</p>
@@ -425,7 +425,7 @@ const PayrollPage = () => {
                                   </AccordionItem>
                                   <AccordionItem value="item-3">
                                     <AccordionTrigger>
-                                      Final Monthly Net Pay: ₹{processedPayroll.finalNetPay.toFixed(2).replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}
+                                      Final Monthly Net Pay: ₹{processedPayroll.finalNetPay.toFixed(2)}
                                     </AccordionTrigger>
                                     <AccordionContent>
                                       <p>Final Net Pay is the net salary after adding overtime pay and subtracting all deductions.</p>
