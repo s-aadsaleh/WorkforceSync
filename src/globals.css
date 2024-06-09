@@ -105,6 +105,14 @@
   @apply hidden;
 }
 
+.progress-bar-container {
+  width: 40px;
+  height: 40px;
+}
+
+.icon-align-top {
+  margin-top: 0.0rem; /* Adjust the value as needed */
+}
 
 @layer base {
   * {

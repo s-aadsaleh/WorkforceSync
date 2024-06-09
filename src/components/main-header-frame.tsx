@@ -4,7 +4,6 @@ import {
   Clipboard,
   Home,
   Menu,
-  Settings2,
   SunMoon,
   Users,
   Waypoints,
@@ -37,7 +36,7 @@ import { Link, useLocation } from "react-router-dom"
 import { ReactNode } from "react"
 import React from 'react';
 
-import DarkModeToggle from "@/components/theme-toggle"
+import DarkModeToggle from "@/components/misc-components/theme-toggle"
 import { signOutAccount } from "@/lib/appwrite/api"
 // import { CardDescription } from "./ui/card"
 
@@ -108,7 +107,7 @@ const MainHeaderFrame = ({ children }: MainHeaderFrameProps) => {
               </Link>
               <div>
                 <Link
-                  to="/employees"
+                  to="/employees/directory"
                   className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
                     pathname.startsWith("/employees") ? "bg-muted text-primary" : "text-muted-foreground"
                   } transition-all hover:text-primary`}
@@ -187,15 +186,6 @@ const MainHeaderFrame = ({ children }: MainHeaderFrameProps) => {
               >
                 <FileStack className="h-5 w-5" />
                 <span style={{ fontSize: "medium" }}>File Storage</span>
-              </Link>
-              <Link
-                to="/settings"
-                className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
-                  pathname === "/settings" ? "bg-muted text-primary" : "text-muted-foreground"
-                } transition-all hover:text-primary`}
-              >
-                <Settings2 className="h-5 w-5" />
-                <span style={{ fontSize: "medium" }}>Settings</span>
               </Link>
             </nav>
           </div>
@@ -296,7 +286,7 @@ const MainHeaderFrame = ({ children }: MainHeaderFrameProps) => {
               </Link>
               <div>
                 <Link
-                  to="/employees"
+                  to="/employees/directory"
                   className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
                     pathname.startsWith("/employees") ? "bg-muted text-primary" : "text-muted-foreground"
                   } transition-all hover:text-primary`}
@@ -375,15 +365,6 @@ const MainHeaderFrame = ({ children }: MainHeaderFrameProps) => {
               >
                 <FileStack className="h-5 w-5" />
                 File Storage
-              </Link>
-              <Link
-                to="/settings"
-                className={`flex items-center gap-3 rounded-lg px-3 py-3 ${
-                  pathname === "/settings" ? "bg-muted text-primary" : "text-muted-foreground"
-                } transition-all hover:text-primary`}
-              >
-                <Settings2 className="h-5 w-5" />
-                Settings
               </Link>
               </nav>
 

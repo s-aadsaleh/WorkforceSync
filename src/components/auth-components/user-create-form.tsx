@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { cn } from "@/lib/utils"
-import { Icons } from "@/components/icons"
+import { Icons } from "@/components/misc-components/icons"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -14,7 +14,8 @@ import { useToast } from "@/components/ui/use-toast"
 
 // import { account } from "@/lib/appwrite/config"
 import { useCreateUserAccount, useSignInAccount } from "@/lib/react-query/queries"
-import { useUserContext } from "@/context/AuthContext";
+import { useAuthContext  } from "@/context/AuthContext";
+// import { useUserContext } from "@/context/AuthContext";
 
 
 
@@ -26,7 +27,8 @@ export function UserCreateForm({ className, ...props }: UserAuthFormProps) {
   const [password, setPassword] = React.useState<string>("");
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { checkAuthUser, isPending: isUserLoading } = useUserContext();
+  const { checkAuthUser, isPending: isUserLoading } = useAuthContext ();
+  // const { checkAuthUser, isPending: isUserLoading } = useUserContext();
 
   useEffect(() => {
     if (
@@ -43,22 +45,22 @@ export function UserCreateForm({ className, ...props }: UserAuthFormProps) {
   const { mutateAsync: createUserAccount, isPending: isCreatingAccount } = useCreateUserAccount();
   const { mutateAsync: signInAccount, isPending: isSigningInUser } = useSignInAccount();
 
-  async function googleAuth(){
+  // async function googleAuth(){
 
-    // console.log('Google authentication initiated');
-    // account.createOAuth2Session(
-    // 'google', 
-    // "http://localhost:5173/dashboard", 
-    // "http://localhost:5173/login"
-    // );
+  //   console.log('Google authentication initiated');
+  //   account.createOAuth2Session(
+  //   'google', 
+  //   "http://localhost:5173/dashboard", 
+  //   "http://localhost:5173/login"
+  //   );
 
-    // const sessi0n = await account.getSession('current');
+  //   const sessi0n = await account.getSession('current');
 
-    // console.log(sessi0n.provider);
-    // console.log(sessi0n.providerUid);
-    // console.log(sessi0n.providerAccessToken);
+  //   console.log(sessi0n.provider);
+  //   console.log(sessi0n.providerUid);
+  //   console.log(sessi0n.providerAccessToken);
 
-  }
+  // }
 
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault()
@@ -172,13 +174,13 @@ export function UserCreateForm({ className, ...props }: UserAuthFormProps) {
       <div className="absolute inset-0 flex items-center">
           
         </div>
-        <div className="relative flex justify-center text-xs uppercase">
+        {/* <div className="relative flex justify-center text-xs uppercase">
           <span className="bg-background px-2 text-muted-foreground">
             Or continue with
           </span>
-        </div>
+        </div> */}
       </div>
-      <Button  type="button" onClick={() => {
+      {/* <Button  type="button" onClick={() => {
         console.log('Button Clicked');
         googleAuth(); 
       }} disabled={isCreatingAccount}>
@@ -188,7 +190,7 @@ export function UserCreateForm({ className, ...props }: UserAuthFormProps) {
           <Icons.google className="mr-2 h-4 w-4" />
         )}{" "}
          Google
-      </Button>
+      </Button> */}
     </div>
   )
 }

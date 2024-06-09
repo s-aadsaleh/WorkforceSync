@@ -1,26 +1,53 @@
-import { UserCreateForm } from "@/components/user-create-form"
+import { UserCreateForm } from "@/components/auth-components/user-create-form"
 import { buttonVariants } from "@/components/ui/button"
 
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { cn } from "@/lib/utils"
+import { useEffect } from "react"
 
 
 const SignupForm = () => {
+  
+  // Navigation
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (
+      localStorage.getItem('cookieFallback') === '[]' ||
+      localStorage.getItem('cookieFallback') === null
+    ) {
+      console.log("reg")
+      navigate('/register');
+    } else {
+      console.log("dash")
+      navigate('/dashboard');
+    }
+  }, []);
 
   return (
-    <div >
+    <div className="min-h-screen flex flex-col justify-between">
       <div className="flex flex-col space-y-2">
         {/* <img src="/assets/images/final-logo.png" alt="logo" /> */}
-        
+
+        <div className="fixed top-4 right-4 md:top-8 md:right-8 flex flex-row md:flex-col space-x-2 md:space-x-0 md:space-y-2">
           <Link
             to="/login"
             className={cn(
               buttonVariants({ variant: "ghost" }),
-              "absolute right-4 top-4 md:right-8 md:top-8"
+              "pb-4 md:pb-0" // Add padding-bottom on mobile
             )}
           >
             Login
           </Link>
+          <Link
+            to="/attendance"
+            className={cn(
+              buttonVariants({ variant: "ghost" }),
+              "pb-4 md:pb-0" // Add padding-bottom on mobile
+            )}
+          >
+            Attendance
+          </Link>
+        </div>
 
         <div className="lg:p-8">
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
@@ -37,14 +64,14 @@ const SignupForm = () => {
             <p className="px-8 text-center text-sm text-muted-foreground">
               By clicking continue, you agree to our{" "}
               <Link
-                to="/terms"
+                to="/"
                 className="underline underline-offset-4 hover:text-primary"
               >
                 Terms of Service
               </Link>{" "}
               and{" "}
               <Link
-                to="/privacy"
+                to="/"
                 className="underline underline-offset-4 hover:text-primary"
               >
                 Privacy Policy

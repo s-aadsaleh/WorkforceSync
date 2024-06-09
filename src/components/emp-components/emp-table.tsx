@@ -23,7 +23,7 @@ import {
 
 import { EmpTableToolbar } from "./emp-table-toolbar"
 import { EmpTablePagination } from "./emp-table-pagination"
-import LoadingSpinner from "../loadingSpinner"
+import LoadingSpinner from "../misc-components/loadingSpinner"
 
 interface EmpTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]

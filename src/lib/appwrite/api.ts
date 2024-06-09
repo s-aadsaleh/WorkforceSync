@@ -72,7 +72,6 @@ import { toast } from 'sonner';
     export async function getAccount() {
       try {
         const currentAccount = await account.get();
-    
         return currentAccount;
       } catch (error) {
         console.log(error);
@@ -123,7 +122,7 @@ import { toast } from 'sonner';
         appwriteConfig.taskCollectionId,
         [Query.select([ '$id', 'Task-ID', 'Title', 'Status', 'Priority', 'DueDate', 'Description', 'Assigned'])]
       );
-  
+      
       return currentTasks.documents;
     } catch (error) {
       console.error('Error fetching tasks:', error);
@@ -265,7 +264,8 @@ export async function getEmpDetailedData(empID: string) {
           'PAN',
           'Aadhar',
           'Photo',
-          'Resume'
+          'Resume',
+          'NetPay',
         ]),
         Query.equal('EmpID', empID) // Use the empID parameter here
       ]
@@ -303,6 +303,7 @@ interface EmpData {
   'Aadhar'?: string;
   'Photo'?: string;
   'Resume'?: string;
+  'NetPay' : string;
 }
 
 export interface FileData {
@@ -396,6 +397,9 @@ export async function deleteEmp(empId: string) {
   }
 }
 
+// ================================================================= PAYROLL =================================================================
+
+
 // ================================================================= ASSETS DIRECTORY =================================================================
 export async function getAssetsData() {
   try {
@@ -483,16 +487,6 @@ export async function updateAssetData(assetId: string, updatedData: UpdatedAsset
 }
 
 // ================================================================= FILE STORAGE =================================================================
-
-// export interface CloudStorageData {
-//   // Define properties for files in your cloud storage system
-//   // For example:
-//   File1: File | null;
-//   File2: File | null;
-//   // Add more properties as needed
-// }
-
-
 
 export async function uploadToCloudStorageDB(file: File, fileName: string): Promise<string | null> {
   try {
@@ -620,3 +614,47 @@ export async function listFilesInCloud(): Promise<Array<{ $id: string; name: str
     }
   }
 
+// ================================================================= ATTENDANCE =================================================================
+  export async function addAttendanceRecord(name: string, empID: string): Promise<void> {
+    try {
+
+      console.log("adding")
+        // OTP verification succeeded, proceed to add attendance record
+        const currentDate = new Date().toISOString(); // Get current date and time
+        const attendanceData = {
+            name: name,
+            empID: empID,
+            attendanceDateTime: currentDate
+        };
+
+        // Push data to Appwrite database
+        const response = await databases.createDocument(          
+          appwriteConfig.databaseId,
+          appwriteConfig.attendanceCollectionId,
+          ID.unique(),
+          attendanceData
+        ); // Replace with your collection ID
+
+        console.log('Attendance record added successfully:', response);
+    } catch (error) {
+        console.error('Error adding attendance record:', error);
+        throw error;
+    }
+}
+
+  export async function fetchAttendanceRecords() {
+    try {
+      const attendanceRecords = await databases.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.attendanceCollectionId,
+        [
+          Query.orderDesc("$createdAt"), // Order by creation date in descending order
+        ]
+      );
+      console.log(attendanceRecords.documents);
+      return attendanceRecords.documents;
+    } catch (error) {
+      console.error("Error fetching attendance records:", error);
+      return null;
+    }
+  }

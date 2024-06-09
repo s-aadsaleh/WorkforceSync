@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "../globals.css"; // Import your global CSS file
+import "../../globals.css"; // Import your global CSS file
 
 const DarkModeToggle = () => {
   const [isDarkMode, setIsDarkMode] = useState(

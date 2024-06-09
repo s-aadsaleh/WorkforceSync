@@ -37,6 +37,8 @@ const EmpAddPage = () => {
     const [photoFile, setPhotoFile] = useState<File | null>(null);
     const [resumeFile, setResumeFile] = useState<File | null>(null);
     // const [miscFile, setMiscFile] = useState<File | null>(null);
+    const [empNetPay, setEmpNetPay] = useState('');
+
 
     //For Date Picker
     const today = new Date();
@@ -57,6 +59,7 @@ const EmpAddPage = () => {
             'Education': education,
             'Address': address,
             'EmergencyContact': emergency,
+            'NetPay' : empNetPay,
         };
 
         const fileData = {
@@ -89,6 +92,7 @@ const EmpAddPage = () => {
             setPhotoFile(null);
             setResumeFile(null);
             // setMiscFile(null);
+            setEmpNetPay('');
         } catch (error) {
             console.error('Error adding employee:', error);
             toast("Uh oh! Something went wrong. Employee not added.");
@@ -258,12 +262,23 @@ const EmpAddPage = () => {
                                             <Input id="resume" type="file" onChange={(e) => setResumeFile(e.target.files?.[0] || null)} />
                                         </div>
                                     </div>
-
-
-                                <div className="flex justify-center pt-10">
-                                    <Button onClick={handleSubmit} size="sm" className="w-3/4" >Add Employee</Button>
-                                </div>
-
+                                </CardContent>
+                            </Card>
+                            <div className="p-3"/>
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Add Employee Salary</CardTitle>
+                                    <CardDescription>Enter the salary details</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <div>
+                                        <Label htmlFor="empNetPay">Cost to Company (CTC)</Label>
+                                        <div className="py-1"/>
+                                        <Input id="empNetPay" type="tel" value={empNetPay} onChange={(e) => setEmpNetPay(e.target.value)} />
+                                    </div>
+                                    <div className="flex justify-center pt-10">
+                                        <Button onClick={handleSubmit} size="sm" className="w-3/4" >Add Employee</Button>
+                                    </div>
                                 </CardContent>
                             </Card>
                         </div>

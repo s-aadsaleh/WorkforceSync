@@ -7,7 +7,7 @@ import { SpeedInsights } from "@vercel/speed-insights/react"
 import App from './App';
 import { AuthProvider } from './context/AuthContext';
 import { QueryProvider } from './lib/react-query/QueryProvider';
-import { PunchInProvider } from './components/punch-in';
+import { PunchInProvider } from './components/misc-components/punch-in';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <BrowserRouter>

@@ -1,5 +1,5 @@
 import MainHeaderFrame from '@/components/main-header-frame'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import React from 'react'
 import { getAssetsData } from '@/lib/appwrite/api'
@@ -49,7 +49,8 @@ const AssetMGMTPage = () => {
         <div className="p-4 md:p-8">
             <Card>
                 <CardHeader>
-                    <CardTitle>Assets Overview</CardTitle>
+                    {/* <CardTitle>Assets Overview</CardTitle> */}
+                    <h2 className="text-2xl font-bold tracking-tight">Assets Overview</h2>
                     {/* <Button onClick={getAssetsData()}>Test</Button> */}
                 </CardHeader>
                 <CardContent>

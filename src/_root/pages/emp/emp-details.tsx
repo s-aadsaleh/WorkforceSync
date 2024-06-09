@@ -26,7 +26,8 @@ const EmpDetailsPage = () => {
         PAN: '',
         Aadhar: '',
         Photo: '',
-        Resume: ''
+        Resume: '',
+        NetPay:'',
     });
 
     useEffect(() => {
@@ -60,7 +61,8 @@ const EmpDetailsPage = () => {
                     PAN: data?.PAN ?? '',
                     Aadhar: data?.Aadhar ?? '',
                     Photo: data?.Photo ?? '',
-                    Resume: data?.Resume ?? ''
+                    Resume: data?.Resume ?? '',
+                    NetPay: data?.NetPay ?? '',
                 });
             } catch (error) {
                 console.error('Error:', error);
@@ -138,6 +140,16 @@ const EmpDetailsPage = () => {
                                                     <p className="text-sm font-medium">Status:</p>
                                                     <p className="text-base font-medium py-2">{empDetails.Status}</p>
                                                 </div>
+                                                <div>
+                                                    <p className="text-sm font-medium">Current Position:</p>
+                                                    <p className="text-base font-medium py-2">{empDetails.CurrentPosition}</p>
+                                                </div>
+                                                <div>
+                                                    <p className="text-sm font-medium">Net Pay:</p>
+                                                    <p className="text-base font-medium py-2">
+                                                        ₹{ empDetails.NetPay.replace(/(\d)(?=(\d\d)+\d$)/g, "$1,") }
+                                                    </p>
+                                                </div>
                                             </div>
                                         </CardContent>
                                     </Card>
@@ -148,11 +160,11 @@ const EmpDetailsPage = () => {
                                         <CardContent>
                                             <div className="flex flex-col space-y-3">
                                                 <div>
-                                                    <p className="text-sm font-medium">Phone Number(s):</p>
+                                                    <p className="text-sm font-medium py-2">Phone Number(s):</p>
                                                     <p className="text-base font-medium">{empDetails.EmpPNumber}</p>
                                                 </div>
                                                 <div>
-                                                    <p className="text-sm font-medium">Email:</p>
+                                                    <p className="text-sm font-medium py-2">Email:</p>
                                                     <p className="text-base font-medium">{empDetails.EmpEmail}</p>
                                                 </div>
                                                 <div>
@@ -169,19 +181,16 @@ const EmpDetailsPage = () => {
                                         <CardContent>
                                             <div className="flex flex-col space-y-3">
                                                 <div>
-                                                    <p className="text-sm font-medium">Date of Birth:</p>
+                                                    <p className="text-sm font-medium py-2">Date of Birth:</p>
                                                     <p className="text-base font-medium">{empDetails.DOB}</p>
                                                 </div>
+
                                                 <div>
-                                                    <p className="text-sm font-medium">Current Position:</p>
-                                                    <p className="text-base font-medium">{empDetails.CurrentPosition}</p>
-                                                </div>
-                                                <div>
-                                                    <p className="text-sm font-medium pt-8">Education:</p>
+                                                    <p className="text-sm font-medium py-2">Education:</p>
                                                     <p className="text-base font-medium">{empDetails.Education}</p>
                                                 </div>
                                                 <div>
-                                                    <p className="text-sm font-medium">Address:</p>
+                                                    <p className="text-sm font-medium py-2">Address:</p>
                                                     <p className="text-base font-medium">{empDetails.Address}</p>
                                                 </div>
                                             </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from './ui/button';
+import { Button } from '../ui/button';
 
 interface PunchInButtonProps {
   isPunchedIn: boolean;
@@ -12,8 +12,9 @@ interface PunchInButtonProps {
 
 const PunchInButton: React.FC<PunchInButtonProps> = ({ isPunchedIn, onPunchIn }) => {
   return (
-
-      <Button onClick={onPunchIn}> Punch {isPunchedIn ? 'Out' : 'In'}</Button>
+      <div className="flex justify-between pl-5">
+        <Button className="p-4"onClick={onPunchIn}> Punch {isPunchedIn ? 'Out' : 'In'}</Button>
+      </div>
 
   );
 };

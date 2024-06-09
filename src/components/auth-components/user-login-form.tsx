@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { cn } from "@/lib/utils"
-import { Icons } from "@/components/icons"
+import { Icons } from "@/components/misc-components/icons"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -14,9 +14,10 @@ import { useToast } from "@/components/ui/use-toast"
 
 // import { account } from "@/lib/appwrite/config"
 import { useSignInAccount } from "@/lib/react-query/queries"
-import { useUserContext } from "@/context/AuthContext";
+// import { useUserContext } from "@/context/AuthContext";
+import { useAuthContext  } from "@/context/AuthContext";
 
-import { signOutAccount } from "@/lib/appwrite/api"
+// import { signOutAccount } from "@/lib/appwrite/api"
 
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
@@ -27,7 +28,8 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
   const [password, setPassword] = React.useState<string>("");
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { checkAuthUser, isPending: isUserLoading } = useUserContext();
+  // const { checkAuthUser, isPending: isUserLoading } = useUserContext();
+  const { checkAuthUser, isPending: isUserLoading } = useAuthContext ();
 
   useEffect(() => {
     if (
@@ -153,13 +155,13 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
       <div className="absolute inset-0 flex items-center">
           
         </div>
-        <div className="relative flex justify-center text-xs uppercase">
+        {/* <div className="relative flex justify-center text-xs uppercase">
           <span className="bg-background px-2 text-muted-foreground">
             Or continue with
           </span>
-        </div>
+        </div> */}
       </div>
-      <Button  type="button" onClick={() => {
+      {/* <Button  type="button" onClick={() => {
         console.log('Button Clicked');
         // googleAuth(); 
         signOutAccount();
@@ -170,7 +172,7 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
           <Icons.google className="mr-2 h-4 w-4" />
         )}{" "}
          Google
-      </Button>
+      </Button> */}
     </div>
   )
 }

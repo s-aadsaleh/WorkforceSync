@@ -1,8 +1,8 @@
 import MainHeaderFrame from "@/components/main-header-frame"
 
-import { usePunchIn } from '../../components/punch-in';
-import PunchInButton from '../../components/punch-in-button';
-import ElapsedTimeDisplay from '../../components/elapsed-time';
+import { usePunchIn } from '../../components/misc-components/punch-in';
+import PunchInButton from '../../components/misc-components/punch-in-button';
+import ElapsedTimeDisplay from '../../components/misc-components/elapsed-time';
 
 export default function SettPage() {
     

@@ -23,7 +23,7 @@ import {
 
 import { DataTableToolbar } from "./data-table/data-table-toolbar";
 import { DataTablePagination } from "./data-table/data-table-pagination";
-import LoadingSpinner from "../loadingSpinner";
+import LoadingSpinner from "../misc-components/loadingSpinner";
 
 
 interface DataTableProps<TData, TValue> {

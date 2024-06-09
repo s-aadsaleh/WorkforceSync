@@ -23,7 +23,7 @@ import {
 
 import { AssetsTableToolbar } from "./assets-table-toolbar"
 import { AssetsTablePagination } from "./assets-table-pagination"
-import LoadingSpinner from "../loadingSpinner"
+import LoadingSpinner from "../misc-components/loadingSpinner"
 
 interface AssetsTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]

@@ -12,6 +12,7 @@ export const appwriteConfig = {
     stagesCollectionId: '661e019baa96dfb7e1bc',
     taskCollectionId: '663bc14600275874e494',
     assetsCollectionId: '664fbe140015188c61c2',
+    attendanceCollectionId: '666525ac0013f8fe360a',
     filesCollectionId: '6658db070035c6480b36',
 }
 
