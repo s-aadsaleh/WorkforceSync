@@ -4,7 +4,7 @@
 
 WorkforceSync is a comprehensive HR management system designed to streamline employee management processes. This project is a culmination of my engineering major project, with the goal of developing a robust and feature-rich system for managing employees.
 
-Currently, it's aimed to be developed into a fully fleshed out, polished and optimzied empolyee management system with more features to be added down the line.
+Currently, it's aimed to be developed into a fully fleshed out, polished and optimzied employee management system with more features to be added down the line.
 
 ## Access
 
