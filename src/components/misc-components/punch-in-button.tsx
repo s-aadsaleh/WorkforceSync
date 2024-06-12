@@ -13,7 +13,7 @@ interface PunchInButtonProps {
 const PunchInButton: React.FC<PunchInButtonProps> = ({ isPunchedIn, onPunchIn }) => {
   return (
       <div className="flex justify-between pl-5">
-        <Button className="p-4"onClick={onPunchIn}> Punch {isPunchedIn ? 'Out' : 'In'}</Button>
+        <Button className="p-4" variant="secondary" onClick={onPunchIn}> Punch {isPunchedIn ? 'Out' : 'In'}</Button>
       </div>
 
   );

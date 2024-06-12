@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils"
 import { useEffect } from "react";
 
 
-const SignupForm = () => {
+const LoginForm = () => {
 
   // Navigation
   const navigate = useNavigate();
@@ -85,4 +85,4 @@ const SignupForm = () => {
   );
 };
 
-export default SignupForm
+export default LoginForm

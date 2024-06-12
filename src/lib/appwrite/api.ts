@@ -122,7 +122,7 @@ import { toast } from 'sonner';
         appwriteConfig.taskCollectionId,
         [Query.select([ '$id', 'Task-ID', 'Title', 'Status', 'Priority', 'DueDate', 'Description', 'Assigned'])]
       );
-      
+      // console.log(currentTasks.documents);
       return currentTasks.documents;
     } catch (error) {
       console.error('Error fetching tasks:', error);
@@ -218,7 +218,7 @@ export async function getEmpData() {
       appwriteConfig.employeesCollectionId,
       [Query.select([ '$id', 'EmpID', 'EmpName', 'JoinDate', 'Status', 'EmpPNumber', 'EmpEmail'])]
     );
-
+    // console.log(currentEmps.documents);
     return currentEmps.documents;
   } catch (error) {
     console.error('Error fetching employees:', error);
@@ -409,7 +409,7 @@ export async function getAssetsData() {
       [Query.select([ '$id', 'AssetsID', 'AssetsName', 'AssetsStatus', 'AssetsType', 'AssetsRemarks', 'AssetsValue', 'AllocatedTo'])]
     );
 
-    console.log(currentAssets.documents);
+    // console.log(currentAssets.documents);
     return currentAssets.documents;
   } catch (error) {
     console.error('Error fetching assets:', error);
@@ -520,7 +520,7 @@ export async function listFilesInCloud(): Promise<Array<{ $id: string; name: str
   try {
     const response = await storage.listFiles(appwriteConfig.fileStorageId);
     const files = response.files.map(({ $id, name }) => ({ $id, name }));
-    console.log('Files in the bucket:', files);
+    // console.log('Files in the bucket:', files);
     return files;
   } catch (error) {
     console.error('Error listing files in the bucket:', error);
@@ -651,7 +651,7 @@ export async function listFilesInCloud(): Promise<Array<{ $id: string; name: str
           Query.orderDesc("$createdAt"), // Order by creation date in descending order
         ]
       );
-      console.log(attendanceRecords.documents);
+      // console.log(attendanceRecords.documents);
       return attendanceRecords.documents;
     } catch (error) {
       console.error("Error fetching attendance records:", error);

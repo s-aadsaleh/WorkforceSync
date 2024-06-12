@@ -41,7 +41,7 @@ export const columns: ColumnDef<Employee>[] = [
       <EmpTableColumnHeader column={column} title="ID" />
     ),
     cell: ({ row }) => <div className="w-[60px]">{row.getValue("EmpID")}</div>, // Adjust width here
-    enableSorting: true,
+    enableSorting: false,
     enableHiding: true,
   },
   {

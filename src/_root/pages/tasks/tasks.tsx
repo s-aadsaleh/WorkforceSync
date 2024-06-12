@@ -3,7 +3,8 @@ import { columns } from "@/components/tasks/column"
 import { DataTable } from "@/components/tasks/data-table"
 import { Task } from "@/components/tasks/data/schema"
 import { getTasks } from "@/lib/appwrite/api"
-import React from "react"
+import React, { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 
 // import { Button } from "@/components/ui/button"
 
@@ -34,8 +35,22 @@ import React from "react"
 // }
 
 export default function TasksPage() {
-    const [data, setData] = React.useState<Task[]>([]);
 
+    // Authentication check
+    const navigate = useNavigate();
+    useEffect(() => {
+    if (
+        localStorage.getItem('cookieFallback') === '[]' ||
+        localStorage.getItem('cookieFallback') === null
+    ) {
+        navigate('/login');
+    } else {
+        navigate(window.location.pathname);
+    }
+    }, []);
+
+    const [data, setData] = React.useState<Task[]>([]);
+    
     React.useEffect(() => {
         const fetchAndMapData = async () => {
             try {
@@ -51,7 +66,7 @@ export default function TasksPage() {
                             priority: task["Priority"].toLowerCase(),
                             dueDate: task["DueDate"] ? new Date(task["DueDate"]) : undefined, // Use undefined if dueDate is null
                             assigned: task["Assigned"] ? task["Assigned"].toString() : '' // Check if Assigned is not null before calling toString()
-
+    
                         };
                     });
                     setData(mappedTasks);
@@ -62,6 +77,7 @@ export default function TasksPage() {
                 console.error('Error fetching data:', error);
             }
         };
+
         fetchAndMapData();
     }, []);
     

@@ -43,7 +43,7 @@ export const columns: ColumnDef<Task>[] = [
       <DataTableColumnHeader column={column} title="Task ID" />
     ),
     cell: ({ row }) => <div className="w-[80px]">{row.getValue("taskId")}</div>,
-    enableSorting: true,
+    enableSorting: false,
     enableHiding: true,
   },
   {
@@ -54,17 +54,17 @@ export const columns: ColumnDef<Task>[] = [
     cell: ({ row }) => {
       const label = labels.find((label) => label.value === row.original.label);
       const title = row.getValue<string>("title");
-      const displayTitle = title.length > 70 ? title : undefined;
+      const displayTitle = title.length > 40 ? title : undefined;
   
       return (
         <div className="flex space-x-2">
           {label && <Badge variant="outline">{label.label}</Badge>}
-          {title.length > 70 ? (
-            <TooltipProvider delayDuration={250}>
+          {title.length > 40 ? (
+            <TooltipProvider delayDuration={150}>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <div className="max-w-[500px] truncate font-medium">
-                    {`${title.slice(0, 70)}...`}
+                    {`${title.slice(0, 40)}...`}
                   </div>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -112,7 +112,7 @@ export const columns: ColumnDef<Task>[] = [
       }
 
       return (
-        <TooltipProvider delayDuration={250}>
+        <TooltipProvider delayDuration={150}>
             <Tooltip>
                 <TooltipTrigger asChild>
                     <div className={`w-[120px] ${dueDateClass}`}>

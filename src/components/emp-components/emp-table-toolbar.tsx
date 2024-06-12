@@ -9,8 +9,8 @@ import { EmpTableViewOptions } from "../emp-components/emp-table-view-options"
 
 import { Toaster } from "sonner"
 import { Link } from "react-router-dom"
-import { EmpTableFacetedFilter } from "./emp-table-faceted-filter"
-import { statuses } from "./emp-data/data"
+// import { EmpTableFacetedFilter } from "./emp-table-faceted-filter"
+// import { statuses } from "./emp-data/data"
 
 interface EmpTableToolbarProps<TData> {
   table: Table<TData>
@@ -32,13 +32,13 @@ export function EmpTableToolbar<TData>({
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {table.getColumn("Status") && (
+        {/* {table.getColumn("Status") && (
           <EmpTableFacetedFilter
             column={table.getColumn("Status")}
             title="Status"
             options={statuses}
           />
-        )}
+        )} */}
         {isFiltered && (
           <Button
             variant="ghost"

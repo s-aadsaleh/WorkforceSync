@@ -13,12 +13,27 @@ import { addEmployee } from '@/lib/appwrite/api'; // Import the updated addEmplo
 
 import { format } from 'date-fns';
 import {  CalendarIcon } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Toaster, toast } from 'sonner';
 
 
 
 const EmpAddPage = () => {
+
+    // Authentication check
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (
+        localStorage.getItem('cookieFallback') === '[]' ||
+        localStorage.getItem('cookieFallback') === null
+        ) {
+        navigate('/login');
+        } else {
+        navigate(window.location.pathname);
+        }
+    }, []);
+
     const [empId, setEmpId] = useState('');
     const [empName, setEmpName] = useState('');
     const [joinDate, setJoinDate] = useState<Date | undefined>(undefined); // Ensure joinDate is of type Date
@@ -103,10 +118,10 @@ const EmpAddPage = () => {
         <MainHeaderFrame>
             <div className="flex justify-center h-full">
                 <div className="w-full px-8">
-                    <div className="flex justify-center">
-                        <div className="w-1/4"></div> {/* Spacer */}
+                    <div className="flex flex-col lg:flex-row justify-center">
+                        <div className="w-1/4 lg:block hidden"></div> {/* Spacer */}
                         {/* Cards Section */}
-                        <div className="flex-grow max-w-md " >
+                        <div className="flex-grow max-w-md">
                             {/* Card for Employee Information */}
                             <Card>
                                 <CardHeader>
@@ -118,12 +133,12 @@ const EmpAddPage = () => {
                                         <div>
                                             <Label htmlFor="empId">Employee ID</Label>
                                             <div className="py-1"/>
-                                            <Input id="empId" type="text" value={empId} onChange={(e) => setEmpId(e.target.value)} />
+                                            <Input id="empId" type="text" value={empId} onChange={(e) => setEmpId(e.target.value)} placeholder="(e.g., 123456)" />
                                         </div>
                                         <div>
                                             <Label htmlFor="empName">Employee Name</Label>
                                             <div className="py-1"/>
-                                            <Input id="empName" type="text" value={empName} onChange={(e) => setEmpName(e.target.value)} />
+                                            <Input id="empName" type="text" value={empName} onChange={(e) => setEmpName(e.target.value)} placeholder="(e.g., John Doe)" />
                                         </div>
                                         <div>
                                             <Label htmlFor="joinDate">Join Date</Label>
@@ -136,7 +151,6 @@ const EmpAddPage = () => {
                                                     </Button>
                                                 </PopoverTrigger>
                                                 <PopoverContent>
-                                                    {/* <Calendar mode="single" selected={joinDate} onSelect={setJoinDate} initialFocus /> */}
                                                     <Calendar
                                                         mode="single"
                                                         captionLayout="dropdown-buttons"
@@ -144,7 +158,7 @@ const EmpAddPage = () => {
                                                         onSelect={setJoinDate}
                                                         fromYear={1960}
                                                         toYear={2030}
-                                                        />
+                                                    />
                                                 </PopoverContent>
                                             </Popover>
                                         </div>
@@ -159,7 +173,6 @@ const EmpAddPage = () => {
                                                     </Button>
                                                 </PopoverTrigger>
                                                 <PopoverContent>
-                                                    {/* <Calendar mode="single" selected={dob} onSelect={setDob} initialFocus /> */}
                                                     <Calendar
                                                         mode="single"
                                                         captionLayout="dropdown-buttons"
@@ -169,48 +182,43 @@ const EmpAddPage = () => {
                                                         toMonth={eighteenYearsAgo}
                                                         disabled={(date) => date > new Date() || date > eighteenYearsAgo}
                                                         initialFocus
-                                                        />
+                                                    />
                                                 </PopoverContent>
                                             </Popover>
                                         </div>
                                         <div>
                                             <Label htmlFor="empPNumber">Phone Number</Label>
                                             <div className="py-1"/>
-                                            <Input id="empPNumber" type="tel" value={empPNumber} onChange={(e) => setEmpPNumber(e.target.value)} />
+                                            <Input id="empPNumber" type="tel" value={empPNumber} onChange={(e) => setEmpPNumber(e.target.value)} placeholder="(e.g., 8961320731)"/>
                                         </div>
                                         <div>
                                             <Label htmlFor="empEmail">Email</Label>
                                             <div className="py-1"/>
-                                            <Input id="empEmail" type="email" value={empEmail} onChange={(e) => setEmpEmail(e.target.value)} />
+                                            <Input id="empEmail" type="email" value={empEmail} onChange={(e) => setEmpEmail(e.target.value)} placeholder="(e.g., example@ex.com)" />
                                         </div>
-                                        {/* <div>
-                                            <Label htmlFor="status">Status</Label>
-                                            <div className="py-1"/>
-                                            <Input id="status" type="text" value={status} onChange={(e) => setStatus(e.target.value)} />
-                                        </div> */}
                                         <div>
                                             <Label>Status</Label>
                                             <div className="py-1"/>
                                             <Select
-                                            value={status}
-                                            onValueChange={(value) => setStatus(value)}
+                                                value={status}
+                                                onValueChange={(value) => setStatus(value)}
                                             >
-                                            <SelectTrigger className="w-[180px]">
-                                                <SelectValue placeholder="Select Status" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem value="Probation">Probation</SelectItem>
-                                                <SelectItem value="Confirmed">Confirmed</SelectItem>
-                                                <SelectItem value="Contract">Contract</SelectItem>
-                                                <SelectItem value="Trainee">Trainee</SelectItem>
-                                                <SelectItem value="Intern">Intern</SelectItem>
-                                            </SelectContent>
+                                                <SelectTrigger className="w-[180px]">
+                                                    <SelectValue placeholder="Select Status" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="Probation">Probation</SelectItem>
+                                                    <SelectItem value="Confirmed">Confirmed</SelectItem>
+                                                    <SelectItem value="Contract">Contract</SelectItem>
+                                                    <SelectItem value="Trainee">Trainee</SelectItem>
+                                                    <SelectItem value="Intern">Intern</SelectItem>
+                                                </SelectContent>
                                             </Select>
                                         </div>
                                         <div>
                                             <Label htmlFor="position">Current Position</Label>
                                             <div className="py-1"/>
-                                            <Input id="position" type="text" value={position} onChange={(e) => setPosition(e.target.value)} />
+                                            <Input id="position" type="text" value={position} onChange={(e) => setPosition(e.target.value)} placeholder="(e.g., Manager)"/>
                                         </div>
                                         <div className="col-span-2">
                                             <Label htmlFor="education">Education</Label>
@@ -231,8 +239,8 @@ const EmpAddPage = () => {
                                 </CardContent>
                             </Card>
                         </div>
-                        <div className="w-8"></div>
-                        <div className="flex-grow max-w-md">
+                        <div className="w-8 lg:block hidden"></div>
+                        <div className="flex-grow max-w-md mt-4 lg:mt-0">
                             {/* Card for File Uploads */}
                             <Card>
                                 <CardHeader>
@@ -274,21 +282,22 @@ const EmpAddPage = () => {
                                     <div>
                                         <Label htmlFor="empNetPay">Cost to Company (CTC)</Label>
                                         <div className="py-1"/>
-                                        <Input id="empNetPay" type="tel" value={empNetPay} onChange={(e) => setEmpNetPay(e.target.value)} />
+                                        <Input id="empNetPay" type="tel" value={empNetPay} onChange={(e) => setEmpNetPay(e.target.value)} placeholder="(e.g., 800000)"/>
                                     </div>
                                     <div className="flex justify-center pt-10">
-                                        <Button onClick={handleSubmit} size="sm" className="w-3/4" >Add Employee</Button>
+                                        <Button onClick={handleSubmit} size="sm" className="w-3/4">Add Employee</Button>
                                     </div>
                                 </CardContent>
                             </Card>
                         </div>
-                        <div className="w-1/4"></div> {/* Spacer */}
+                        <div className="w-1/4 lg:block hidden"></div> {/* Spacer */}
                     </div>
                 </div>
             </div>
             <Toaster />
         </MainHeaderFrame>
     );
+    
 }
 
 export default EmpAddPage;

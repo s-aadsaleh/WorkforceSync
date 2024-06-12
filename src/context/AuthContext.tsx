@@ -93,8 +93,14 @@
 
 // authContext.js
 
-import React, { createContext, useContext, useEffect, useState, Dispatch, SetStateAction } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { createContext, 
+    useContext, 
+    // useEffect, 
+    useState, 
+    Dispatch, 
+    SetStateAction
+ } from 'react';
+// import { useNavigate } from 'react-router-dom';
 import { getCurrentUser } from '@/lib/appwrite/api';
 import { IUser } from '../types/';
 
@@ -132,7 +138,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [isPending, setIsPending] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const checkAuthUser = async () => {
         try {
@@ -165,13 +171,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     };
 
-    useEffect(() => {
-        if (localStorage.getItem('cookieFallback') === '[]' || localStorage.getItem('cookieFallback') === null)
-            console.log('authcontext')
-            navigate('/login');
+    // useEffect(() => {
+    //     if (localStorage.getItem('cookieFallback') === '[]' || localStorage.getItem('cookieFallback') === null)
+    //         console.log('authcontext')
+    //     console.log('yes')
+    //         navigate('/login');
 
-        checkAuthUser();
-    }, []);
+    //     checkAuthUser();
+    // }, []);
 
     const value: IAuthContext = {
         user,

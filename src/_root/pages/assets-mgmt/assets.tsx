@@ -1,14 +1,28 @@
 import MainHeaderFrame from '@/components/main-header-frame'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { getAssetsData } from '@/lib/appwrite/api'
 import { AssetsTable } from '@/components/assets-components/assets-table'
 import { columns } from '@/components/assets-components/assets-column'
 import { Assets } from '@/components/assets-components/assets-data/schema'
+import { useNavigate } from 'react-router-dom'
 // import { Button } from '@/components/ui/button'
 
 const AssetMGMTPage = () => {
+  
+    // Authentication check
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (
+      localStorage.getItem('cookieFallback') === '[]' ||
+      localStorage.getItem('cookieFallback') === null
+    ) {
+      navigate('/login');
+    } else {
+      navigate(window.location.pathname);
+    }
+  }, []);
 
     const [data, setData] = React.useState<Assets[]>([]);
 

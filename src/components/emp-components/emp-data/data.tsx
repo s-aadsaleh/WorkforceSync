@@ -31,7 +31,7 @@ import {
       icon: QuestionMarkCircledIcon,
     },
     {
-      value: "Confirmed",
+      value: "confirmed",
       label: "Confirmed",
       icon: CircleIcon,
     },

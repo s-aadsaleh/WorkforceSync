@@ -11,9 +11,24 @@ import {
 import { Toaster, toast } from 'sonner';
 import { uploadToCloudStorageDB, listFilesInCloud, handleCloudDelete, renameFileInCloud } from '@/lib/appwrite/api';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
+import { useNavigate } from 'react-router-dom';
 // import { File, FileArchive, FileAudio2, FileQuestion, FileText, FileType2, FileVideo2 } from 'lucide-react';
 
 const FileStoragePage = () => {
+
+  // Authentication check
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (
+      localStorage.getItem('cookieFallback') === '[]' ||
+      localStorage.getItem('cookieFallback') === null
+    ) {
+      navigate('/login');
+    } else {
+      navigate(window.location.pathname);
+    }
+  }, []);
+
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [dragging, setDragging] = useState(false);
@@ -254,7 +269,7 @@ const FileStoragePage = () => {
         <div className="p-3 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {files.map((file) => (
             <Card key={file.$id} className="flex flex-col items-center justify-center p-2 shadow-lg">
-<div className="w-full h-24 sm:h-32 bg-[#eceff1] flex items-center justify-center overflow-hidden">
+              <div className="w-full h-24 sm:h-32 bg-[#eceff1] flex items-center justify-center overflow-hidden">
               {/* <div className="w-full h-24 sm:h-32 bg-[rgb(236, 239, 241)] flex items-center justify-center overflow-hidden"> */}
                 {
                   isImageFile(file.name) ? (

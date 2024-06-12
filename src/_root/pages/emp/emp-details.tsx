@@ -6,9 +6,24 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { downloadEmpFile, getEmpDetailedData } from "@/lib/appwrite/api";
 import {  useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Toaster, toast } from "sonner";
 
 const EmpDetailsPage = () => {
+
+    // Authentication check
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (
+        localStorage.getItem('cookieFallback') === '[]' ||
+        localStorage.getItem('cookieFallback') === null
+        ) {
+        navigate('/login');
+        } else {
+        navigate(window.location.pathname);
+        }
+    }, []);
+
     const [empID, setEmpID] = useState('');
     const [empData, setEmpData] = useState<Document | null>(null);
     const [empDetails, setEmpDetails] = useState({

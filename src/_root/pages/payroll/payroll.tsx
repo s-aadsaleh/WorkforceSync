@@ -19,6 +19,7 @@ import { Label } from "@/components/ui/label";
 // import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 // import { saveAs } from 'file-saver-es';
 import { generateSalarySlipPDF } from "@/components/misc-components/generate-payslip-pdf";
+import { useNavigate } from "react-router-dom";
 
 interface ProcessedPayroll {
   grossSalary: number;
@@ -46,6 +47,20 @@ interface ProcessedPayroll {
 // }
 
 const PayrollPage = () => {
+
+  // Authentication check
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (
+      localStorage.getItem('cookieFallback') === '[]' ||
+      localStorage.getItem('cookieFallback') === null
+    ) {
+      navigate('/login');
+    } else {
+      navigate(window.location.pathname);
+    }
+  }, []);
+
   const [empID, setEmpID] = useState('');
   const [empData, setEmpData] = useState<Document | null>(null);
   const [empDetails, setEmpDetails] = useState({
@@ -264,41 +279,74 @@ const PayrollPage = () => {
               <div>
                 {/* <div className="flex space-x-2 py-5"> */}
                 <div className="flex w-full items-center space-x-2 py-5">
-                  <TooltipProvider>
+                  <TooltipProvider delayDuration={150}>
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <div className="flex flex-col">
                           <Label className="text-xs font-medium text-gray-500 p-1">Working Days</Label>
-                          <Input
+                          {/* <Input
                             id="workingDays"
                             type="number"
                             placeholder="Working Days"
                             value={workingDays}
                             onChange={(e) => setWorkingDays(Number(e.target.value))}
+                          /> */}
+                          <Input
+                            id="workingDays"
+                            type="number"
+                            placeholder="Working Days"
+                            value={workingDays}
+                            onChange={(e) => {
+                              const value = Number(e.target.value);
+                              if (value < 0) {
+                                setWorkingDays(0);
+                              } else if (value > 31) {
+                                setWorkingDays(31);
+                              } else {
+                                setWorkingDays(value);
+                              }
+                            }}
                           />
                         </div>
                       </TooltipTrigger>
                       <TooltipContent>
-                        <p>Number of days worked in this month</p>
+                        <p>Number of days worked in the month</p>
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
-                  <TooltipProvider>
+                  <TooltipProvider delayDuration={150}>
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <div className="flex flex-col">
                         <Label className="text-xs font-medium text-gray-500 p-1">Overtime Hours</Label>
-                          <Input
+                          {/* <Input
                             id="overtimeHours"
                             type="number"
                             placeholder="Overtime Hours"
                             value={overtimeHours}
                             onChange={(e) => setOvertimeHours(Number(e.target.value))}
+                          /> */}
+                          <Input
+                            id="overtimeHours"
+                            type="number"
+                            placeholder="Overtime Hours"
+                            value={overtimeHours}
+                            onChange={(e) => {
+                              const value = Number(e.target.value);
+                              if (value < 0) {
+                                setOvertimeHours(0);
+                              } else if (value > 48) {
+                                //Factories Act of 1948 limits OT to 48 hours
+                                setOvertimeHours(48);
+                              } else {
+                                setOvertimeHours(value);
+                              }
+                            }}
                           />
                         </div>
                       </TooltipTrigger>
                       <TooltipContent>
-                        <p>Number of overtime hours worked in this month</p>
+                        <p>Number of overtime hours worked in the month</p>
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
@@ -328,7 +376,7 @@ const PayrollPage = () => {
                       </Select>
                     </div>
                     <div className="flex-grow flex justify-end space-x-2">
-                      <Button onClick={processPayroll}>Process</Button>
+                      <Button  onClick={processPayroll}>Process</Button>
                       {/* <Button
                         onClick={() => {
                           if (processedPayroll) {
@@ -340,9 +388,27 @@ const PayrollPage = () => {
                         }}
                       >
                         Download Salary Slip
-                      </Button> */}
-                      <Button onClick={handleDownloadPayslip}>Download Salary Slip</Button>
-                      <Button onClick={handlePrintPayslip}>Print Salary Slip</Button>
+                      </Button> */}                      
+                      <TooltipProvider delayDuration={150}>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button variant="outline" onClick={handleDownloadPayslip}>Download Salary Slip</Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Process payroll again if any changes have been made</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                      <TooltipProvider delayDuration={150}>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button variant="outline" onClick={handlePrintPayslip}>Print Salary Slip</Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Process payroll again if any changes have been made</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                     </div>
                 </div>
                 <Separator />
@@ -365,7 +431,7 @@ const PayrollPage = () => {
                                 <Accordion type="single" collapsible>
                                   <AccordionItem value="item-1">
                                     <AccordionTrigger>
-                                      Gross Monthly Salary: ₹{processedPayroll.grossSalary}
+                                      Gross Monthly Salary: ₹{processedPayroll.grossSalary.toFixed(2)}
                                     </AccordionTrigger>
                                     <AccordionContent>
                                       <p>Gross Monthly Salary is the total salary before any deductions.</p>
@@ -469,13 +535,13 @@ const PayrollPage = () => {
                           </div>
                           <div className="flex flex-col space-y-3">
                             <div>
-                              <p className="text-sm font-medium">Current Month Attendance:</p>
+                              <p className="text-sm font-medium">Current Month's Attendance:</p>
                               <p className="text-base font-medium py-2">
                                 {new Date().toLocaleString('default', { month: 'long' })}: {currentMonthAttendance}
                               </p>
                             </div>
                             <div>
-                              <p className="text-sm font-medium">Previous Month Attendance:</p>
+                              <p className="text-sm font-medium">Previous Month's Attendance:</p>
                               <p className="text-base font-medium py-2">
                                 {new Date(new Date().setMonth(new Date().getMonth() - 1)).toLocaleString('default', { month: 'long' })}: {prevMonthAttendance}
                               </p>

@@ -35,6 +35,7 @@ import { Calendar } from "@/components/ui/calendar"
 
 import { format } from 'date-fns';
 
+
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
 }
@@ -90,6 +91,8 @@ export function DataTableToolbar<TData>({
           toast("Task added successfully."); // Display the success toast message
           setTimeout(() => {
             window.location.assign(window.location.href); // Reload the page after a short delay
+            // window.location.replace("/tasks");
+            // fetchAndMapData();
           }, 500); // Delay of 500 milliseconds (0.5 seconds)
         } else {
           // Handle the case where the task was not added successfully
