@@ -125,9 +125,14 @@ const EmpDetailsPage = () => {
                     </CardHeader>
                     <CardContent>
                         <div className="flex flex-col space-y-4">
-                            <div className="flex w-full max-w-sm items-center space-x-2 py-5">
-                                <Input id="empID" placeholder="Employee ID" onKeyDown={handleEnterPress} value={empID} onChange={(e) => setEmpID(e.target.value)} />
+                            <div className="flex items-center space-x-2 py-5">
+                                <Input id="empID" placeholder="Employee ID" onKeyDown={handleEnterPress} value={empID} onChange={(e) => setEmpID(e.target.value)} style={{ width: 'calc(30% - 120px)' }} />
+                                <div className="flex space-x-2">
                                 <Button onClick={handleButtonClick}>Fetch</Button>
+                                {/* {empData && (
+                                    <Button variant="outline" onClick={handleButtonClick}>Mark as Present</Button>
+                                )} */}
+                                </div>
                             </div>
                             <Separator />
                             {empData && (

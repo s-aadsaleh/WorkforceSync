@@ -66,8 +66,8 @@ const SimpleBarChart: React.FC = () => {
                 <Tooltip content={({ payload }) => {
                     if (payload && payload.length > 0) {
                         const { presentNames, absentNames, present, absent } = payload[0].payload;
-                        const presentDisplayNames = presentNames.length > 10 ? presentNames.slice(0, 10).join(', ') + ' ...' : presentNames.join(', ');
-                        const absentDisplayNames = absentNames.length > 10 ? absentNames.slice(0, 10).join(', ') + ' ...' : absentNames.join(', ');
+                        const presentDisplayNames = presentNames.length > 40 ? presentNames.slice(0, 10).join(', ') + ' ...' : presentNames.join(', ');
+                        const absentDisplayNames = absentNames.length > 40 ? absentNames.slice(0, 10).join(', ') + ' ...' : absentNames.join(', ');
                         return (
                             <div style={{ 
                                 backgroundColor: 'white', 

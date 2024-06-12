@@ -316,7 +316,6 @@ const FileStoragePage = () => {
                   //   </div>
                   ) : (
                     <div className="flex flex-col items-center">
-
                       <img
                         src={`https://cloud.appwrite.io/v1/storage/buckets/6658db9e0036b652391f/files/${file.$id}/preview?project=workforcesync`}
                         // src={`https://cloud.appwrite.io/v1/storage/buckets/6658db9e0036b652391f/files/${file.$id}/view?project=workforcesync&mode=admin`}

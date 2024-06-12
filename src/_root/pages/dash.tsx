@@ -241,7 +241,7 @@ export default function DashPage() {
           <Card className="w-full md:w-2/3">
             <CardHeader>
               <CardDescription className="flex gap-3">
-                <Database /> Employee Attendance Bar Chart
+                <Database /> Cloud File Storage Tree Map
               </CardDescription>
             </CardHeader>
             <CardContent>
