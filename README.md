@@ -1,32 +1,90 @@
-# WorkforceSync - A Comprehensive HR Management System
+# WorkforceSync
 
-## Overview
+<div align="center">
+  <img src="public/assets/images/logo.svg" alt="WorkforceSync Logo" width="200"/>
+  <h3>A Modern HR Management System</h3>
+  <p>Streamline your workforce management with an all-in-one HR solution</p>
+</div>
 
-WorkforceSync is a comprehensive HR management system designed to streamline employee management processes. This project is a culmination of my engineering major project, with the goal of developing a robust and feature-rich system for managing employees.
+## 🌟 Overview
 
-Currently, it's aimed to be developed into a fully fleshed out, polished and optimzied employee management system with more features to be added down the line.
+WorkforceSync is a comprehensive HR management system built with modern web technologies. It provides a robust platform for managing employees, tracking attendance, handling payroll, and storing company documents - all in one centralized location.
 
-## Access
+🔗 **Live Demo**: [WorkforceSync](https://workforcesync.vercel.app/)
 
-The WorkforceSync system is currently accessible at [WorkforceSync](https://workforcesync.vercel.app/).
+## ✨ Key Features
 
-## Contributing
+### 👥 Employee Management
+- Complete employee profile management
+- Digital document storage for employee records
+- Role and department organization
+- Employee status tracking
 
-If you are interested in contributing to the development of WorkforceSync, please feel free to reach out. We welcome suggestions and ideas for improving the system.
+### 💰 Payroll System
+- Automated payroll processing
+- Custom salary components
+- Tax calculations
+- Payslip generation and download
+- Salary history tracking
 
-## License
+### ⏰ Attendance Management
+- Digital punch-in/punch-out system
+- Real-time attendance tracking
+- Leave management
+- Attendance reports and analytics
 
-WorkforceSync is licensed under the MIT License. For more information, please see the LICENSE file in the root directory of this project.
+### 📊 Analytics Dashboard
+- Interactive data visualizations
+- Employee statistics
+- Attendance patterns
+- Resource utilization metrics
+- File storage analytics
 
-## Contact
+### 📁 Document Management
+- Secure file storage system
+- Document organization
+- File preview capabilities
+- Access control management
 
-If you have any questions or need further assistance, please don't hesitate to reach out.
+### 💼 Asset Management
+- Company asset tracking
+- Asset allocation history
+- Status monitoring
+- Maintenance scheduling
 
-## Acknowledgments
+## 🛠️ Tech Stack
 
-This project is the result of my engineering final year software project. 
+### Frontend
+- **React 18** with TypeScript
+- **Tailwind CSS** for styling
+- **shadcn/ui** for UI components
+- **Recharts** for data visualization
 
-## Disclaimer
+### Backend Services
+- **Appwrite** for:
+  - Authentication
+  - Database
+  - File Storage
+  - Real-time updates
+- **Vercel** for deployment
 
-Please note that this project is for educational purposes only and is not intended for commercial use. Any unauthorized use or reproduction of this project is strictly prohibited.
 
+## 👨‍💻 Author
+
+This project was developed as part of an engineering final year project, with the goal of creating a modern, efficient HR management solution.
+
+## 📞 Contact
+
+For questions, suggestions, or collaboration opportunities, please feel free to reach out:
+
+- GitHub Issues: [Create an issue](https://github.com/s.aadsaleh/workforcesync/issues)
+
+## ⚠️ Disclaimer
+
+This project is for educational purposes only and is not intended for commercial use. Any unauthorized use or reproduction of this project is strictly prohibited.
+
+---
+
+<div align="center">
+  Made with ❤️ using React and Appwrite
+</div>
